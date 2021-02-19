@@ -17,7 +17,8 @@
         </StackLayout>
 
 
-
+ 
+        
         <Button Text="Sign IN" BackgroundColor="DarkOrange"  Command="{Binding NavigateMainListCommand}"></Button>
 
 

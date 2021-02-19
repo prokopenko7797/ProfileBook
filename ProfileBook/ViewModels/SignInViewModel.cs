@@ -7,6 +7,7 @@ using System.Linq;
 using ProfileBook.Models;
 using ProfileBook.Servcies;
 using ProfileBook.Servcies.Settings;
+using System.ComponentModel;
 
 namespace ProfileBook.ViewModels
 {
@@ -16,7 +17,8 @@ namespace ProfileBook.ViewModels
         : base(navigationService)
         {
             Title = "Users SignIn";
-
+            
+            
             _navigationService = navigationService;
             _repository = dbRepository;
             _settingsmanager = settingsManager;
@@ -39,7 +41,7 @@ namespace ProfileBook.ViewModels
 
        
         public DelegateCommand NavigateMainListCommand =>
-            _navigateMainListCommand ?? (_navigateMainListCommand = new DelegateCommand(ExecuteNavigateCommand));
+            _navigateMainListCommand ?? (_navigateMainListCommand = new DelegateCommand(ExecuteNavigateCommand).ObservesCanExecute(()=>IsEnabled));
 
 
         async void ExecuteNavigateCommand()
@@ -48,6 +50,7 @@ namespace ProfileBook.ViewModels
             await _navigationService.NavigateAsync("MainList");
         }
 
+       
 
 
 
@@ -97,13 +100,26 @@ namespace ProfileBook.ViewModels
 
 
         public DelegateCommand ButtonCommand { get; private set; }
-        
 
-        
 
-        
-       
 
-      
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(login) || args.PropertyName == nameof(password))
+            {
+                if(login == null || password == null) return;
+
+                if (login != "" && password != "") IsEnabled = true;
+
+                else if (login == "" || password == "") IsEnabled = false;
+                
+            }
+        }
+
+
+
+
     }
 }
