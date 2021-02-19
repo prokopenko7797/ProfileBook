@@ -12,6 +12,8 @@ namespace ProfileBook.ViewModels
         protected INavigationService NavigationService { get; private set; }
 
         private string _title;
+
+
         public string Title
         {
             get { return _title; }

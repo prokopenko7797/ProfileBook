@@ -8,10 +8,10 @@
 
     <StackLayout Padding="30,0,30,0" HorizontalOptions="FillAndExpand"  VerticalOptions="CenterAndExpand" >
 
-        <Entry Placeholder = "Login" />
-        <Entry Placeholder = "Password" IsPassword ="True" />
-        <Entry Placeholder = "Confirm Password" IsPassword ="True" />
-        <Button Text="Sign IN" BackgroundColor="DarkOrange" IsEnabled="False"></Button>
+        <Entry Placeholder = "Login" Text="{Binding Login}"/>
+        <Entry Placeholder = "Password" IsPassword ="True" Text="{Binding Password}"/>
+        <Entry Placeholder = "Confirm Password" IsPassword ="True" Text="{Binding ConfirmPassword}" />
+        <Button Text="Sign IN" BackgroundColor="DarkOrange" IsEnabled="True" Command="{Binding AddUserCommand}"></Button>
 
 
     </StackLayout>
