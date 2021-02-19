@@ -19,6 +19,7 @@ namespace ProfileBook.ViewModels
             : base(navigationService)
         {
             Title = "Users SignUp";
+            tmp = "123";
             _repository = repository;
         }
 
@@ -53,13 +54,29 @@ namespace ProfileBook.ViewModels
             }
         }
 
+
+
+        private string _tmp;
+        public string tmp
+        {
+            get { return _tmp; }
+            set
+            {
+                SetProperty(ref _tmp, value);
+
+            }
+        }
         private void AddUser()
         {
-            int result = _repository.Insert(new Account { Login = login, Password = password });
+            //tmp++;
+            int a = _repository.Insert(new Account { Login = login, Password = password });
 
-            
+            Account s = _repository.Get(1);
+
+            tmp = s.Login;
+         
         }
 
-        DelegateCommand AddUserCommand => new DelegateCommand (AddUser);
+        public DelegateCommand AddUserCommand => new DelegateCommand (AddUser);
     }
 }

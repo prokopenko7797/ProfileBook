@@ -1,19 +1,38 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using ProfileBook.Servcies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProfileBook.Models;
+using ProfileBook.Servcies;
+using ProfileBook.Servcies.Settings;
 
 namespace ProfileBook.ViewModels
 {
     public class SignInViewModel : ViewModelBase
     {
+        public SignInViewModel(INavigationService navigationService, IRepository<Account> dbRepository, ISettingsManager settingsManager)
+        : base(navigationService)
+        {
+            Title = "Users SignIn";
+
+            _navigationService = navigationService;
+            _repository = dbRepository;
+            _settingsmanager = settingsManager;
+
+        }
+
 
         private readonly INavigationService _navigationService;
         private readonly IRepository<Account> _repository;
+        private readonly ISettingsManager _settingsmanager;
+
+
+
+
+
+
 
 
         private DelegateCommand _navigateMainListCommand;
@@ -47,17 +66,7 @@ namespace ProfileBook.ViewModels
 
 
 
-        public SignInViewModel(INavigationService navigationService, IDbRepository dbRepository)
-            : base(navigationService)
-        {
-            Title = "Users SignIn";
 
-            _navigationService = navigationService;
-            _dbrepository = dbRepository;
-           
-
-
-        }
 
 
 
@@ -69,15 +78,17 @@ namespace ProfileBook.ViewModels
             set { SetProperty(ref _isEnabled, value); }
         }
 
-        private string _login;
-        private string _password;
 
+        private string _login;
+        
         public string login
         {
             get { return _login; }
             set { SetProperty(ref _login, value); }
         }
 
+
+        private string _password;
         public string password
         {
             get { return _password; }
