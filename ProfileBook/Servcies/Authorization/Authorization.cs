@@ -2,22 +2,33 @@
 using System.Collections.Generic;
 using System.Text;
 using ProfileBook.Models;
+using ProfileBook.Servcies.Settings;
+using Xamarin.Essentials;
 
 namespace ProfileBook.Servcies.Authorization
 {
-    class Authorization : IAuthorization
+    public class Authorization : IAuthorization
     {
         private readonly IRepository<Account> _repository;
+        private readonly ISettingsManager _settingsManager;
 
-        public Authorization(IRepository<Account> repository)
+        public Authorization(IRepository<Account> repository, ISettingsManager settingsManager)
         {
             _repository = repository;
+            _settingsManager = settingsManager;
         }
         public bool Authorize(string login, string password)
         {
-            bool result = false;
-            //_repository.Get().FirstOrDefault(x => x.Login == login && x.Password == password);
-            return result;
+
+            Account ac = _repository.FindWithQuery($"SELECT * FROM Account WHERE login='{login}' AND password='{password}'");
+
+            if(ac != null)
+            {
+                _settingsManager.IdUser = ac.id;
+                return true;
+            }
+
+            return false;
         }
     }
 }

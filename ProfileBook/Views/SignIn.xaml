@@ -10,16 +10,16 @@
         
         <StackLayout Padding="0,0,0,150">
 
-            
-            <Entry Placeholder = "Login"  Text="{Binding login}" />
-            <Entry Placeholder = "Password" IsPassword ="True"  Text="{Binding password}"/>
+            <Label Text="{Binding tmp}"></Label>
+            <Entry Placeholder = "Login"  Text="{Binding Login}" />
+            <Entry Placeholder = "Password" IsPassword ="True"  Text="{Binding Password}"/>
         
         </StackLayout>
 
 
  
         
-        <Button Text="Sign IN" BackgroundColor="DarkOrange"  Command="{Binding NavigateMainListCommand}"></Button>
+        <Button Text="Sign IN" BackgroundColor="DarkOrange"  Command="{Binding NavigateMainListButtonTapCommand}"></Button>
 
 
         <StackLayout Padding="0,15,0,0">
@@ -32,7 +32,7 @@
                       TextColor="Blue"
                       TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding NavigateSingUpCommand}"
+                                <TapGestureRecognizer Command="{Binding NavigateSingUpButtonTapCommand}"
                                               CommandParameter="https://xamarin.com" />
                             </Span.GestureRecognizers>
                         </Span>

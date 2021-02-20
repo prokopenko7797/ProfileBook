@@ -7,6 +7,7 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 using ProfileBook.Servcies;
 using ProfileBook.Servcies.Settings;
+using ProfileBook.Servcies.Authorization;
 using ProfileBook.Models;
 using System.IO;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace ProfileBook
             containerRegistry.RegisterInstance<IRepository<Account>>(Container.Resolve<Repository<Account>>());
             containerRegistry.RegisterInstance<IRepository<Profile>>(Container.Resolve<Repository<Profile>>());
             containerRegistry.RegisterInstance <ISettingsManager>(Container.Resolve <SettingsManager>());
+            containerRegistry.RegisterInstance<IAuthorization>(Container.Resolve<Authorization>());
 
 
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ProfileBook.Servcies.Authorization
 {
-    interface IAuthorization
+    public interface IAuthorization
     {
         bool Authorize(string login, string password);
     }

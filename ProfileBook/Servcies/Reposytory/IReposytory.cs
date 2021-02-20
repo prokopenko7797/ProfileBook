@@ -9,9 +9,9 @@ namespace ProfileBook.Servcies
     {
         IEnumerable<T> GetAll();
 
-        IEnumerable<T> Query(string query);
+        T FindWithQuery(string query);
 
-        T Get(int id);
+        T GetById(int id);
         int Delete(int id);
         int Insert(T item);
         int Update(T item);

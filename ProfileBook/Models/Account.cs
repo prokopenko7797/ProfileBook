@@ -11,7 +11,7 @@ namespace ProfileBook.Models
         [PrimaryKey, AutoIncrement, Column("id")]
         public int id { get; set; }
 
-        [Column("login")]
+        [Unique, Column("login")]
         public string Login { get; set; }
 
         [Column("password")]

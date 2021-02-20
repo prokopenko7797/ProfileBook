@@ -3,49 +3,62 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using ProfileBook.Servcies;
+using ProfileBook.Servcies.Authorization;
 using ProfileBook.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.ComponentModel;
 
 namespace ProfileBook.ViewModels
 {
     public class SingUpViewModel : ViewModelBase
     {
+
         private readonly IRepository<Account> _repository;
+        private readonly INavigationService _navigationService;
+
 
         public SingUpViewModel(INavigationService navigationService, IRepository<Account> repository)
             : base(navigationService)
         {
             Title = "Users SignUp";
-            tmp = "123";
+
+            tmp = IsEnabled.ToString();
             _repository = repository;
+            _navigationService = navigationService;
+
         }
 
+
+
+
+        #region -----Public Properties-----
+
         private string _login;
-        public string login
+        public string Login
         {
             get { return _login; }
             set
             {
                 SetProperty(ref _login, value);
+
             }
         }
 
         private string _password;
-        public string password
+        public string Password
         {
             get { return _password; }
             set
             {
                 SetProperty(ref _password, value);
-                
+
             }
         }
 
         private string _confirmpassword;
-        public string confirmpassword
+        public string ConfirmPassword
         {
             get { return _confirmpassword; }
             set
@@ -54,6 +67,17 @@ namespace ProfileBook.ViewModels
             }
         }
 
+        private bool _IsEnabled;
+
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set 
+            {
+                SetProperty(ref _IsEnabled, value);
+
+            }
+        }
 
 
         private string _tmp;
@@ -66,17 +90,51 @@ namespace ProfileBook.ViewModels
 
             }
         }
-        private void AddUser()
+
+        
+        private DelegateCommand _AddAccountButtonTapCommand;
+        public DelegateCommand AddAccountButtonTapCommand =>
+            _AddAccountButtonTapCommand ??
+            (_AddAccountButtonTapCommand = 
+            new DelegateCommand(ExecuteddAccountButtonTapCommand));
+
+
+
+        #endregion
+
+
+        #region -----Private Helpers-----
+
+        private async void ExecuteddAccountButtonTapCommand()
         {
-            //tmp++;
-            int a = _repository.Insert(new Account { Login = login, Password = password });
 
-            Account s = _repository.Get(1);
+            // int a = _repository.Insert(new Account { Login = this.Login, Password = this.Password });
 
-            tmp = s.Login;
-         
+
+            var p = new NavigationParameters();
+            p.Add("Login", Login);
+
+                await _navigationService.NavigateAsync("/NavigationPage/SignIn", p);
+            
+            
         }
 
-        public DelegateCommand AddUserCommand => new DelegateCommand (AddUser);
+
+
+        #endregion
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+            if (args.PropertyName == nameof(Login) || args.PropertyName == nameof(Password) || args.PropertyName == nameof(ConfirmPassword))
+            {
+                if (Login == null || Password == null || ConfirmPassword == null) return;
+
+                if (Login != "" && Password != "" && ConfirmPassword != "") IsEnabled = true;
+
+                else if (Login == "" || Password == "" || ConfirmPassword == "") IsEnabled = false;
+            }
+        }
+
     }
 }

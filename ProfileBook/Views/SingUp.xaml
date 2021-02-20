@@ -8,11 +8,11 @@
 
     <StackLayout Padding="30,0,30,0" HorizontalOptions="FillAndExpand"  VerticalOptions="CenterAndExpand" >
 
-
+        <Label Text="{Binding tmp}"></Label>
         <Entry Placeholder = "Login" Text="{Binding Login}"/>
         <Entry Placeholder = "Password" IsPassword ="True" Text="{Binding Password}"/>
         <Entry Placeholder = "Confirm Password" IsPassword ="True" Text="{Binding ConfirmPassword}" />
-        <Button Text="Sign IN" BackgroundColor="DarkOrange" Command="{Binding AddUserCommand}"></Button>
+        <Button Text="Sign IN" BackgroundColor="DarkOrange" Command="{Binding AddAccountButtonTapCommand}"></Button>
         
 
     </StackLayout>

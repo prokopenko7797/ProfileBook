@@ -7,13 +7,17 @@ using System.Linq;
 using ProfileBook.Models;
 using ProfileBook.Servcies;
 using ProfileBook.Servcies.Settings;
+using ProfileBook.Servcies.Authorization;
 using System.ComponentModel;
 
 namespace ProfileBook.ViewModels
 {
     public class SignInViewModel : ViewModelBase
     {
-        public SignInViewModel(INavigationService navigationService, IRepository<Account> dbRepository, ISettingsManager settingsManager)
+
+
+        public SignInViewModel(INavigationService navigationService, IRepository<Account> dbRepository, 
+            ISettingsManager settingsManager, IAuthorization authorization)
         : base(navigationService)
         {
             Title = "Users SignIn";
@@ -22,6 +26,8 @@ namespace ProfileBook.ViewModels
             _navigationService = navigationService;
             _repository = dbRepository;
             _settingsmanager = settingsManager;
+            _authorization = authorization;
+
 
         }
 
@@ -29,97 +35,121 @@ namespace ProfileBook.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IRepository<Account> _repository;
         private readonly ISettingsManager _settingsmanager;
+        private readonly IAuthorization _authorization;
 
 
 
+        #region -----Public Properties-----
 
+        private string _Login;
 
-
-
-
-        private DelegateCommand _navigateMainListCommand;
-
-       
-        public DelegateCommand NavigateMainListCommand =>
-            _navigateMainListCommand ?? (_navigateMainListCommand = new DelegateCommand(ExecuteNavigateCommand).ObservesCanExecute(()=>IsEnabled));
-
-
-        async void ExecuteNavigateCommand()
+        public string Login
         {
-
-            await _navigationService.NavigateAsync("MainList");
-        }
-
-       
-
-
-
-
-        private DelegateCommand _navigateSingUpCommand;
-        
-        public DelegateCommand NavigateSingUpCommand =>
-            _navigateSingUpCommand ?? (_navigateSingUpCommand = new DelegateCommand(ExecuteNavigateSingUpCommand));
-
-
-        async void ExecuteNavigateSingUpCommand()
-        {
-            await _navigationService.NavigateAsync("SingUp");
-        }
-
-
-
-
-
-
-
-
-        private bool _isEnabled;
-
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { SetProperty(ref _isEnabled, value); }
-        }
-
-
-        private string _login;
-        
-        public string login
-        {
-            get { return _login; }
-            set { SetProperty(ref _login, value); }
-        }
-
-
-        private string _password;
-        public string password
-        {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
-        }
-
-
-        public DelegateCommand ButtonCommand { get; private set; }
-
-
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName == nameof(login) || args.PropertyName == nameof(password))
+            get { return _Login; }
+            set
             {
-                if(login == null || password == null) return;
 
-                if (login != "" && password != "") IsEnabled = true;
+                SetProperty(ref _Login, value);
 
-                else if (login == "" || password == "") IsEnabled = false;
-                
+                if (Login == null || Password == null) return;
+
+                if (Login != "" && Password != "") IsEnabled = true;
+
+                else if (Login == "") IsEnabled = false;
+
             }
         }
 
 
+        private string _Password;
+        public string Password
+        {
+            get { return _Password; }
+            set
+            {
+                SetProperty(ref _Password, value);
+                if (Login == null || Password == null) return;
 
+                if (Login != "" && Password != "") IsEnabled = true;
+
+                else if (Password == "") IsEnabled = false;
+            }
+        }
+
+
+        private bool _IsEnabled;
+
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set { SetProperty(ref _IsEnabled, value); }
+        }
+
+
+        private string _tmp;
+
+        public string tmp
+        {
+            get { return _tmp; }
+            set { SetProperty(ref _tmp, value); }
+        }
+
+
+
+        private DelegateCommand _NavigateMainListCommand;
+        
+        public DelegateCommand NavigateMainListButtonTapCommand =>
+            _NavigateMainListCommand ?? 
+            (_NavigateMainListCommand = new DelegateCommand(ExecuteNavigateMainViewCommand).ObservesCanExecute(() => IsEnabled));
+
+
+        private DelegateCommand _NavigateSingUpCommand;
+
+        public DelegateCommand NavigateSingUpButtonTapCommand =>
+            _NavigateSingUpCommand ?? 
+            (_NavigateSingUpCommand = new DelegateCommand(ExecuteNavigateSingUpCommand));
+
+        #endregion
+
+
+
+
+        #region -----Private Helpers-----
+
+        private async void ExecuteNavigateSingUpCommand()
+        {
+            await _navigationService.NavigateAsync("SingUp");
+
+        }
+
+        private async void ExecuteNavigateMainViewCommand()
+        {
+            //if (_authorization.Authorize(Login, Password))
+            //{
+                await _navigationService.NavigateAsync("/NavigationPage/MainList");
+            //}
+        }
+
+        #endregion
+
+
+        #region -----Overrides-----
+
+
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if(parameters.GetValue<string>("Login") != null)
+                 Login = parameters.GetValue<string>("Login");
+
+            Password = "";
+
+        }
+
+    
+
+
+        #endregion
 
     }
 }

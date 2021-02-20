@@ -24,12 +24,12 @@ namespace ProfileBook.Servcies
             return database.Table<T>();
         }
 
-        public IEnumerable<T> Query(string query)
+        public T Query(string query)
         {
-            return database.Query<T>(query);
+            return database.FindWithQuery<T>(query);
         }
 
-        public T Get(int id)
+        public T GetById(int id)
         {
             return database.Get<T>(id);
         }
@@ -47,6 +47,11 @@ namespace ProfileBook.Servcies
         public int Update(T item)
         {
             return database.Update(item);
+        }
+
+        public T FindWithQuery(string query)
+        {
+            return database.FindWithQuery<T>(query);
         }
     }
 }
