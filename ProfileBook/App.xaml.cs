@@ -11,8 +11,8 @@ using ProfileBook.Servcies.Authorization;
 using ProfileBook.Models;
 using System.IO;
 using System.Threading.Tasks;
-
-
+using ProfileBook.Validators;
+using ProfileBook.Servcies.Registration;
 
 namespace ProfileBook
 {
@@ -35,12 +35,15 @@ namespace ProfileBook
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            
 
-
-            containerRegistry.RegisterInstance<IRepository<Account>>(Container.Resolve<Repository<Account>>());
+            containerRegistry.RegisterInstance<IRepository<User>>(Container.Resolve<Repository<User>>());
             containerRegistry.RegisterInstance<IRepository<Profile>>(Container.Resolve<Repository<Profile>>());
             containerRegistry.RegisterInstance <ISettingsManager>(Container.Resolve <SettingsManager>());
-            containerRegistry.RegisterInstance<IAuthorization>(Container.Resolve<Authorization>());
+            containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
+            containerRegistry.RegisterInstance<IValidator>(Container.Resolve<Validator>());
+            containerRegistry.RegisterInstance<IRegistrationService>(Container.Resolve<RegistrationService>());
+
 
 
 

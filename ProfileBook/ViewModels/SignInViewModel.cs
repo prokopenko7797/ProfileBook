@@ -16,8 +16,8 @@ namespace ProfileBook.ViewModels
     {
 
 
-        public SignInViewModel(INavigationService navigationService, IRepository<Account> dbRepository, 
-            ISettingsManager settingsManager, IAuthorization authorization)
+        public SignInViewModel(INavigationService navigationService, IRepository<User> dbRepository, 
+            ISettingsManager settingsManager, IAuthorizationService authorization)
         : base(navigationService)
         {
             Title = "Users SignIn";
@@ -33,9 +33,9 @@ namespace ProfileBook.ViewModels
 
 
         private readonly INavigationService _navigationService;
-        private readonly IRepository<Account> _repository;
+        private readonly IRepository<User> _repository;
         private readonly ISettingsManager _settingsmanager;
-        private readonly IAuthorization _authorization;
+        private readonly IAuthorizationService _authorization;
 
 
 
@@ -124,10 +124,10 @@ namespace ProfileBook.ViewModels
 
         private async void ExecuteNavigateMainViewCommand()
         {
-            //if (_authorization.Authorize(Login, Password))
-            //{
+            if (_authorization.Authorize(Login, Password))
+            {
                 await _navigationService.NavigateAsync("/NavigationPage/MainList");
-            //}
+            }
         }
 
         #endregion

@@ -3,30 +3,33 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using ProfileBook.Servcies;
-using ProfileBook.Servcies.Authorization;
 using ProfileBook.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
+using ProfileBook.Enums;
+using ProfileBook.Servcies.Registration;
+
 
 namespace ProfileBook.ViewModels
 {
     public class SingUpViewModel : ViewModelBase
     {
-
-        private readonly IRepository<Account> _repository;
         private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _pageDialogService;
+        private readonly IRegistrationService _registrationService;
 
 
-        public SingUpViewModel(INavigationService navigationService, IRepository<Account> repository)
+
+
+        public SingUpViewModel(INavigationService navigationService, IRepository<User> repository,
+            IPageDialogService pageDialogService, IRegistrationService registrationService)
             : base(navigationService)
         {
             Title = "Users SignUp";
 
-            tmp = IsEnabled.ToString();
-            _repository = repository;
+            
             _navigationService = navigationService;
+            _pageDialogService = pageDialogService;
+            _registrationService = registrationService;
 
         }
 
@@ -87,16 +90,15 @@ namespace ProfileBook.ViewModels
             set
             {
                 SetProperty(ref _tmp, value);
-
             }
         }
 
         
-        private DelegateCommand _AddAccountButtonTapCommand;
-        public DelegateCommand AddAccountButtonTapCommand =>
-            _AddAccountButtonTapCommand ??
-            (_AddAccountButtonTapCommand = 
-            new DelegateCommand(ExecuteddAccountButtonTapCommand));
+        private DelegateCommand _AddUserButtonTapCommand;
+        public DelegateCommand AddUserButtonTapCommand =>
+            _AddUserButtonTapCommand ??
+            (_AddUserButtonTapCommand = 
+            new DelegateCommand(ExecuteddUserButtonTapCommand)).ObservesCanExecute(() => IsEnabled);
 
 
 
@@ -105,17 +107,66 @@ namespace ProfileBook.ViewModels
 
         #region -----Private Helpers-----
 
-        private async void ExecuteddAccountButtonTapCommand()
+        private async void ExecuteddUserButtonTapCommand()
         {
+            switch (_registrationService.Registrate(Login, Password, ConfirmPassword))
+            {
+                case ValidEnum.NotInRangeLogin:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Login must be at least 4 and no more than 16 characters.", "OK");
+                    }
+                    break;
 
-            // int a = _repository.Insert(new Account { Login = this.Login, Password = this.Password });
+                case ValidEnum.NotInRangePassword:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Password must be at least 8 and no more than 16 characters.", "OK");
+                    }
+                    break;
+                case ValidEnum.HasntMach:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Password mismatch.", "OK");
+                    }
+                    break;
+                case ValidEnum.HasntUpLowNum:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Password must contain at least one uppercase letter, one lowercase letter and one number.", "OK");
+                    }
+                    break;
 
+                case ValidEnum.StartWithNum:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Login should not start with number.", "OK");
+                    }
+                    break;
+                case ValidEnum.LoginExist:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Login already exist.", "OK");
+                    }
+                    break;
+                case ValidEnum.Success:
+                    {
 
-            var p = new NavigationParameters();
-            p.Add("Login", Login);
+                        var p = new NavigationParameters();
+                        p.Add("Login", Login);
 
-                await _navigationService.NavigateAsync("/NavigationPage/SignIn", p);
-            
+                        await _navigationService.NavigateAsync("/NavigationPage/SignIn", p);
+                    }
+                    break;
+                default:
+                    {
+                        await _pageDialogService.DisplayAlertAsync(
+                            "Error", "Unknown error", "OK");
+                    }
+                    break;
+
+            }
+         
             
         }
 

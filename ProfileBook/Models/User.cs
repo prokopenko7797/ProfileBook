@@ -5,8 +5,8 @@ using SQLite;
 
 namespace ProfileBook.Models
 {
-    [Table("Account")]
-    public class Account: IModel
+    [Table("User")]
+    public class User: IModel
     {
         [PrimaryKey, AutoIncrement, Column("id")]
         public int id { get; set; }

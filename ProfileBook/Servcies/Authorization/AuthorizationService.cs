@@ -7,12 +7,12 @@ using Xamarin.Essentials;
 
 namespace ProfileBook.Servcies.Authorization
 {
-    public class Authorization : IAuthorization
+    public class AuthorizationService : IAuthorizationService
     {
-        private readonly IRepository<Account> _repository;
+        private readonly IRepository<User> _repository;
         private readonly ISettingsManager _settingsManager;
 
-        public Authorization(IRepository<Account> repository, ISettingsManager settingsManager)
+        public AuthorizationService(IRepository<User> repository, ISettingsManager settingsManager)
         {
             _repository = repository;
             _settingsManager = settingsManager;
@@ -20,11 +20,11 @@ namespace ProfileBook.Servcies.Authorization
         public bool Authorize(string login, string password)
         {
 
-            Account ac = _repository.FindWithQuery($"SELECT * FROM Account WHERE login='{login}' AND password='{password}'");
+            User user = _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}' AND password='{password}'");
 
-            if(ac != null)
+            if(user != null)
             {
-                _settingsManager.IdUser = ac.id;
+                _settingsManager.IdUser = user.id;
                 return true;
             }
 

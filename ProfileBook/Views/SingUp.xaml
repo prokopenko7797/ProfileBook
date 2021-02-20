@@ -12,7 +12,7 @@
         <Entry Placeholder = "Login" Text="{Binding Login}"/>
         <Entry Placeholder = "Password" IsPassword ="True" Text="{Binding Password}"/>
         <Entry Placeholder = "Confirm Password" IsPassword ="True" Text="{Binding ConfirmPassword}" />
-        <Button Text="Sign IN" BackgroundColor="DarkOrange" Command="{Binding AddAccountButtonTapCommand}"></Button>
+        <Button Text="Sign IN" BackgroundColor="DarkOrange" Command="{Binding AddUserButtonTapCommand}"></Button>
         
 
     </StackLayout>
