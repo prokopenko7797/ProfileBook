@@ -6,13 +6,16 @@
              x:Class="ProfileBook.Views.SignIn"
              Title="{Binding Title}">
 
+
+
+
     <StackLayout Padding="30,0,30,0" HorizontalOptions="FillAndExpand"  VerticalOptions="CenterAndExpand" >
         
         <StackLayout Padding="0,0,0,150">
 
             <Label Text="{Binding tmp}"></Label>
-            <Entry Placeholder = "Login"  Text="{Binding Login}" />
-            <Entry Placeholder = "Password" IsPassword ="True"  Text="{Binding Password}"/>
+            <Entry Placeholder = "Login"  Text="{Binding Login}" MaxLength="16" />
+            <Entry Placeholder = "Password" IsPassword ="True"  Text="{Binding Password}" MaxLength="16"/>
         
         </StackLayout>
 

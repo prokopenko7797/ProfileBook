@@ -13,11 +13,22 @@ namespace ProfileBook.ViewModels
 {
     public class SingUpViewModel : ViewModelBase
     {
+
+        #region -----Private-----
         private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
         private readonly IRegistrationService _registrationService;
 
 
+        private string _login;
+        private string _password;
+        private string _confirmpassword;
+        private string _tmp;
+
+
+        private DelegateCommand _AddUserButtonTapCommand;
+
+        #endregion
 
 
         public SingUpViewModel(INavigationService navigationService, IRepository<User> repository,
@@ -38,36 +49,25 @@ namespace ProfileBook.ViewModels
 
         #region -----Public Properties-----
 
-        private string _login;
+
         public string Login
         {
             get { return _login; }
-            set
-            {
-                SetProperty(ref _login, value);
-
-            }
+            set{ SetProperty(ref _login, value); }
         }
 
-        private string _password;
+
         public string Password
         {
             get { return _password; }
-            set
-            {
-                SetProperty(ref _password, value);
-
-            }
+            set { SetProperty(ref _password, value);}
         }
 
-        private string _confirmpassword;
+
         public string ConfirmPassword
         {
             get { return _confirmpassword; }
-            set
-            {
-                SetProperty(ref _confirmpassword, value);
-            }
+            set { SetProperty(ref _confirmpassword, value); }
         }
 
         private bool _IsEnabled;
@@ -75,26 +75,18 @@ namespace ProfileBook.ViewModels
         public bool IsEnabled
         {
             get { return _IsEnabled; }
-            set 
-            {
-                SetProperty(ref _IsEnabled, value);
-
-            }
+            set { SetProperty(ref _IsEnabled, value); }
         }
 
 
-        private string _tmp;
+
         public string tmp
         {
             get { return _tmp; }
-            set
-            {
-                SetProperty(ref _tmp, value);
-            }
+            set { SetProperty(ref _tmp, value); }
         }
 
         
-        private DelegateCommand _AddUserButtonTapCommand;
         public DelegateCommand AddUserButtonTapCommand =>
             _AddUserButtonTapCommand ??
             (_AddUserButtonTapCommand = 

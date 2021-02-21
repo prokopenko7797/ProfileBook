@@ -6,6 +6,35 @@
              x:Class="ProfileBook.Views.MainList"
              Title="{Binding Title}">
 
-    <Entry Placeholder = "List" />
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="ic_exit_to_app.png"
+                     Order="Primary"
+                     Priority="0" 
+                     Command="{Binding LogOutToolBarCommand}"
+                     />
+
+        <ToolbarItem IconImageSource="ic_settings.png"
+                     Order="Primary"
+                     Priority="0" 
+                     Command="{Binding SettingsToolBarCommand}"
+                     />
+    </ContentPage.ToolbarItems>
+
+
+  
+
+
+
+
+        <ImageButton
+            WidthRequest="100" 
+            HeightRequest="100"
+            VerticalOptions="End"
+            HorizontalOptions="End"
+            Command="{Binding AddEditButtonClicked}"           
+            Source="ic_add.png"/>
+
+
 
 </ContentPage>

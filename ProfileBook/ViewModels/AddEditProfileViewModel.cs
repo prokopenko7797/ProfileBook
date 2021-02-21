@@ -4,16 +4,15 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ProfileBook.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+    public class AddEditProfileViewModel : ViewModelBase
     {
-        public MainPageViewModel(INavigationService navigationService)
+        public AddEditProfileViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            Title = "Main Page";
+            Title = "Add Profile";
         }
     }
 }

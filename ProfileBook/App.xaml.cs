@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using ProfileBook.Validators;
 using ProfileBook.Servcies.Registration;
+using Xamarin.Essentials;
 
 namespace ProfileBook
 {
@@ -29,8 +30,9 @@ namespace ProfileBook
         {
             InitializeComponent();
             
-
-            await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            //if(Preferences.Get("IdUser", -1) != -1) 
+                await NavigationService.NavigateAsync("NavigationPage/SignIn");
+            //else await NavigationService.NavigateAsync("NavigationPage/MainList");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -50,12 +52,10 @@ namespace ProfileBook
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-
-       
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
             containerRegistry.RegisterForNavigation<SingUp, SingUpViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
         }
     }
 }

@@ -9,6 +9,7 @@ using ProfileBook.Servcies;
 using ProfileBook.Servcies.Settings;
 using ProfileBook.Servcies.Authorization;
 using System.ComponentModel;
+using Prism.Services;
 
 namespace ProfileBook.ViewModels
 {
@@ -16,32 +17,40 @@ namespace ProfileBook.ViewModels
     {
 
 
-        public SignInViewModel(INavigationService navigationService, IRepository<User> dbRepository, 
-            ISettingsManager settingsManager, IAuthorizationService authorization)
-        : base(navigationService)
+        #region -----Private-----
+
+        private readonly INavigationService _navigationService;
+        private readonly IPageDialogService _pageDialogService;
+        private readonly IAuthorizationService _authorization;
+
+
+        private string _Login;
+        private string _Password;
+        private bool _IsEnabled;
+        private string _tmp;
+
+
+        private DelegateCommand _NavigateMainListCommand;
+        private DelegateCommand _NavigateSingUpCommand;
+
+        #endregion
+
+
+        public SignInViewModel(INavigationService navigationService, IPageDialogService pageDialogService, 
+            IAuthorizationService authorization): base(navigationService)
         {
             Title = "Users SignIn";
-            
-            
+
+
             _navigationService = navigationService;
-            _repository = dbRepository;
-            _settingsmanager = settingsManager;
+            _pageDialogService = pageDialogService;
             _authorization = authorization;
 
 
         }
 
 
-        private readonly INavigationService _navigationService;
-        private readonly IRepository<User> _repository;
-        private readonly ISettingsManager _settingsmanager;
-        private readonly IAuthorizationService _authorization;
-
-
-
         #region -----Public Properties-----
-
-        private string _Login;
 
         public string Login
         {
@@ -60,8 +69,6 @@ namespace ProfileBook.ViewModels
             }
         }
 
-
-        private string _Password;
         public string Password
         {
             get { return _Password; }
@@ -77,8 +84,6 @@ namespace ProfileBook.ViewModels
         }
 
 
-        private bool _IsEnabled;
-
         public bool IsEnabled
         {
             get { return _IsEnabled; }
@@ -86,24 +91,19 @@ namespace ProfileBook.ViewModels
         }
 
 
-        private string _tmp;
-
         public string tmp
         {
             get { return _tmp; }
             set { SetProperty(ref _tmp, value); }
         }
 
-
-
-        private DelegateCommand _NavigateMainListCommand;
-        
+   
         public DelegateCommand NavigateMainListButtonTapCommand =>
             _NavigateMainListCommand ?? 
             (_NavigateMainListCommand = new DelegateCommand(ExecuteNavigateMainViewCommand).ObservesCanExecute(() => IsEnabled));
 
 
-        private DelegateCommand _NavigateSingUpCommand;
+
 
         public DelegateCommand NavigateSingUpButtonTapCommand =>
             _NavigateSingUpCommand ?? 
@@ -125,9 +125,11 @@ namespace ProfileBook.ViewModels
         private async void ExecuteNavigateMainViewCommand()
         {
             if (_authorization.Authorize(Login, Password))
-            {
                 await _navigationService.NavigateAsync("/NavigationPage/MainList");
-            }
+            
+            else
+                await _pageDialogService.DisplayAlertAsync(
+                        "Error", "Incorrect login or password.", "OK");
         }
 
         #endregion
