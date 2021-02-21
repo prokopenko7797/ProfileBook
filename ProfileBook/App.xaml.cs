@@ -5,7 +5,7 @@ using ProfileBook.Views;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
-using ProfileBook.Servcies;
+using ProfileBook.Servcies.Repository;
 using ProfileBook.Servcies.Settings;
 using ProfileBook.Servcies.Authorization;
 using ProfileBook.Models;
@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using ProfileBook.Validators;
 using ProfileBook.Servcies.Registration;
 using Xamarin.Essentials;
+using ProfileBook.Servcies.ProfileService;
 
 namespace ProfileBook
 {
@@ -41,11 +42,11 @@ namespace ProfileBook
 
             containerRegistry.RegisterInstance<IRepository<User>>(Container.Resolve<Repository<User>>());
             containerRegistry.RegisterInstance<IRepository<Profile>>(Container.Resolve<Repository<Profile>>());
-            containerRegistry.RegisterInstance <ISettingsManager>(Container.Resolve <SettingsManager>());
+            containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve <SettingsManager>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IValidator>(Container.Resolve<Validator>());
             containerRegistry.RegisterInstance<IRegistrationService>(Container.Resolve<RegistrationService>());
-
+            containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
 
 
 

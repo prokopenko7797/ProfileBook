@@ -1,5 +1,6 @@
 ﻿using ProfileBook.Enums;
 using ProfileBook.Models;
+using ProfileBook.Servcies.Repository;
 using ProfileBook.Validators;
 using System;
 using System.Collections.Generic;

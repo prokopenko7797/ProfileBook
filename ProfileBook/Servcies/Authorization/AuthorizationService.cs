@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ProfileBook.Models;
+using ProfileBook.Servcies.Repository;
 using ProfileBook.Servcies.Settings;
 using Xamarin.Essentials;
 

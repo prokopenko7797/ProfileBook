@@ -5,7 +5,7 @@ using SQLite;
 using ProfileBook.Models;
 using System.IO;
 
-namespace ProfileBook.Servcies
+namespace ProfileBook.Servcies.Repository
 {
     public class Repository<T> : IRepository<T> where T : IModel, new()
     {
@@ -24,9 +24,9 @@ namespace ProfileBook.Servcies
             return database.Table<T>();
         }
 
-        public T Query(string query)
+        public IEnumerable<T> Query(string query)
         {
-            return database.FindWithQuery<T>(query);
+            return database.Query<T>(query);
         }
 
         public T GetById(int id)
