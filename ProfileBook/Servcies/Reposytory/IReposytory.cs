@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using ProfileBook.Models;
 
 namespace ProfileBook.Servcies.Repository
 {
     public interface IRepository<T> where T : IModel, new()
     {
-        IEnumerable<T> GetAll();
+        Task<List<T>> GetAll();
 
-        T FindWithQuery(string query);
+        Task<T> FindWithQuery(string query);
 
-        IEnumerable<T> Query(string query);
-        T GetById(int id);
-        int Delete(int id);
-        int Insert(T item);
-        int Update(T item);
+        Task<List<T>> Query(string query);
+        Task<T> GetById(int id);
+        Task<int> Delete(int id);
+        Task<int> Insert(T item);
+        Task<int> Update(T item);
     }
 }

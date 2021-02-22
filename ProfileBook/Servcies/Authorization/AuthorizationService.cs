@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using ProfileBook.Models;
 using ProfileBook.Servcies.Repository;
 using ProfileBook.Servcies.Settings;
@@ -18,10 +19,10 @@ namespace ProfileBook.Servcies.Authorization
             _repository = repository;
             _settingsManager = settingsManager;
         }
-        public bool Authorize(string login, string password)
+        public async Task<bool> Authorize(string login, string password)
         {
 
-            User user = _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}' AND password='{password}'");
+            var user = await _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}' AND password='{password}'");
 
             if(user != null)
             {

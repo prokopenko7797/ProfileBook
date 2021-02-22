@@ -5,6 +5,7 @@ using ProfileBook.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ProfileBook.Servcies.Registration
 {
@@ -12,19 +13,16 @@ namespace ProfileBook.Servcies.Registration
     {
 
         private readonly IRepository<User> _repository;
-        private readonly IValidator _validator;
+        private readonly Validator _validator = new Validator();
 
-
-        public RegistrationService(IRepository<User> repository, IValidator validator)
+        public RegistrationService(IRepository<User> repository)
         {
             _repository = repository;
-            _validator = validator;
-
         }
 
 
 
-        public ValidEnum  Registrate(string login, string password, string confirmpassword)
+        public async Task<ValidEnum>  Registrate(string login, string password, string confirmpassword)
         {
             if (!_validator.InRange(login, 4, 16))
             {   
@@ -57,7 +55,7 @@ namespace ProfileBook.Servcies.Registration
 
 
 
-            User user = _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}'");
+            User user = await _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}'");
 
             if (user != null)
             {
@@ -65,7 +63,7 @@ namespace ProfileBook.Servcies.Registration
                 return ValidEnum.LoginExist;
             }
 
-            _repository.Insert(new User { Login = login, Password = password });
+            await _repository.Insert(new User { Login = login, Password = password });
             return ValidEnum.Success;
         }
     }

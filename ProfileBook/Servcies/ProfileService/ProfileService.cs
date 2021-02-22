@@ -4,6 +4,7 @@ using ProfileBook.Servcies.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ProfileBook.Servcies.ProfileService
 {
@@ -19,30 +20,30 @@ namespace ProfileBook.Servcies.ProfileService
     }
 
 
-        public void AddEdit(Profile profile)
+        public async Task AddEdit(Profile profile)
         {
             if (profile.id != -1)
-                _repository.Update(profile);
+                await _repository.Update(profile);
             else
             {
                 profile.date = DateTime.Now;
-                _repository.Insert(profile);
+                await _repository.Insert(profile);
             }
         }
 
-        public void Dalete(int id) 
+        public async Task Dalete(int id) 
         {
-            _repository.Delete(id);
+            await _repository.Delete(id);
         }
 
-        public Profile GetProfile(int id)
+        public async Task<Profile> GetProfile(int id)
         {
-            return _repository.GetById(id);
+            return await _repository.GetById(id);
         }
 
-        public IEnumerable<Profile> GetUserProfiles()
+        public async Task<List<Profile>> GetUserProfiles()
         {
-            return _repository.Query($"SELECT * FROM User WHERE user_id='{_settingsManager.IdUser.ToString()}'");
+            return await _repository.Query($"SELECT * FROM User WHERE user_id='{_settingsManager.IdUser}'");
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace ProfileBook.Validators
 {
-    public class Validator : IValidator
+    public class Validator
     {
         public bool Match(string str, string con)
         {

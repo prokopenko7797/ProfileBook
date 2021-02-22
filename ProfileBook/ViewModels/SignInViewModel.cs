@@ -10,6 +10,7 @@ using ProfileBook.Servcies.Settings;
 using ProfileBook.Servcies.Authorization;
 using System.ComponentModel;
 using Prism.Services;
+using ProfileBook.Views;
 
 namespace ProfileBook.ViewModels
 {
@@ -56,32 +57,13 @@ namespace ProfileBook.ViewModels
         public string Login
         {
             get { return _Login; }
-            set
-            {
-
-                SetProperty(ref _Login, value);
-
-                if (Login == null || Password == null) return;
-
-                if (Login != "" && Password != "") IsEnabled = true;
-
-                else if (Login == "") IsEnabled = false;
-
-            }
+            set { SetProperty(ref _Login, value); }
         }
 
         public string Password
         {
             get { return _Password; }
-            set
-            {
-                SetProperty(ref _Password, value);
-                if (Login == null || Password == null) return;
-
-                if (Login != "" && Password != "") IsEnabled = true;
-
-                else if (Password == "") IsEnabled = false;
-            }
+            set { SetProperty(ref _Password, value); }
         }
 
 
@@ -119,14 +101,14 @@ namespace ProfileBook.ViewModels
 
         private async void ExecuteNavigateSignUpCommand()
         {
-            await _navigationService.NavigateAsync("SignUp");
+            await _navigationService.NavigateAsync($"{nameof(SignUp)}");
 
         }
 
         private async void ExecuteNavigateMainViewCommand()
         {
-            if (_authorization.Authorize(Login, Password))
-                await NavigationService.NavigateAsync("/NavigationPage/MainList");
+            if (await _authorization.Authorize(Login, Password))
+                await NavigationService.NavigateAsync($"/NavigationPage/{nameof(MainList)}");
 
             else
                 await _pageDialogService.DisplayAlertAsync(
@@ -149,7 +131,21 @@ namespace ProfileBook.ViewModels
 
         }
 
-    
+
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+            if (args.PropertyName == nameof(Login) || args.PropertyName == nameof(Password))
+            {
+                if (Login == null || Password == null) return;
+
+                if (Login != "" && Password != "") IsEnabled = true;
+
+                else if (Login != "" || Password == "") IsEnabled = false;
+            }
+        }
+
 
 
         #endregion

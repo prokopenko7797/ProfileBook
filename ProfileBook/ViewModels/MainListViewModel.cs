@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Servcies.Settings;
+using ProfileBook.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace ProfileBook.ViewModels
         #region -----Private-----
 
 
-        private INavigationService _navigationService;
-        private ISettingsManager _settingsManager;
+        private readonly INavigationService _navigationService;
+        private readonly ISettingsManager _settingsManager;
 
         private DelegateCommand _LogOutToolBarCommand;
         private DelegateCommand _AddEditButtonClicked;
@@ -69,7 +70,7 @@ namespace ProfileBook.ViewModels
 
         private async void ExecuteNavigateAddEditProfileCommand()
         {
-            await _navigationService.NavigateAsync("AddEditProfile");
+            await _navigationService.NavigateAsync($"{nameof(AddEditProfile)}");
 
         }
 
@@ -77,7 +78,7 @@ namespace ProfileBook.ViewModels
         private async void ExecuteNavigateLogOutToolBarCommand() 
         {
             _settingsManager.IdUser = -1;
-            await _navigationService.NavigateAsync("/NavigationPage/SignIn");
+            await _navigationService.NavigateAsync($"/NavigationPage/{nameof(SignIn)}");
         }
 
         #endregion

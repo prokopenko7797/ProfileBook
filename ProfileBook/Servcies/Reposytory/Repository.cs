@@ -4,54 +4,55 @@ using System.Text;
 using SQLite;
 using ProfileBook.Models;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ProfileBook.Servcies.Repository
 {
     public class Repository<T> : IRepository<T> where T : IModel, new()
     {
-        private readonly SQLiteConnection database;
+        private readonly SQLiteAsyncConnection _database;
 
         public Repository()
         {
-            database = new SQLiteConnection(
+            _database = new SQLiteAsyncConnection(
                 Path.Combine(Environment.GetFolderPath(
                     Environment.SpecialFolder.LocalApplicationData), "sqlite.db"));
-            database.CreateTable<T>();
+            _database.CreateTableAsync<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return database.Table<T>();
+            return await _database.Table<T>().ToListAsync();
         }
 
-        public IEnumerable<T> Query(string query)
+        public Task<List<T>> Query(string query)
         {
-            return database.Query<T>(query);
+            return _database.QueryAsync<T>(query);
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return database.Get<T>(id);
+            return await _database.GetAsync<T>(id);
         }
 
-        public int Delete(int id)
+        public async Task<int> Delete(int id)
         {
-            return database.Delete<T>(id);
+            return await _database.DeleteAsync<T>(id);
         }
 
-        public int Insert(T item)
+        public async Task<int> Insert(T item)
         {
-            return database.Insert(item);
+            return await _database.InsertAsync(item);
         }
 
-        public int Update(T item)
+        public async Task<int> Update(T item)
         {
-            return database.Update(item);
+            return await _database.UpdateAsync(item);
         }
 
-        public T FindWithQuery(string query)
+        public async Task<T> FindWithQuery(string query)
         {
-            return database.FindWithQuery<T>(query);
+            return await _database.FindWithQueryAsync<T>(query);
         }
     }
 }

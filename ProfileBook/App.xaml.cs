@@ -11,7 +11,6 @@ using ProfileBook.Servcies.Authorization;
 using ProfileBook.Models;
 using System.IO;
 using System.Threading.Tasks;
-using ProfileBook.Validators;
 using ProfileBook.Servcies.Registration;
 using Xamarin.Essentials;
 using ProfileBook.Servcies.ProfileService;
@@ -32,8 +31,8 @@ namespace ProfileBook
             InitializeComponent();
             
             if(Preferences.Get("IdUser", -1) == -1) 
-                await NavigationService.NavigateAsync("NavigationPage/SignIn");
-            else await NavigationService.NavigateAsync("NavigationPage/MainList");
+                await NavigationService.NavigateAsync($"NavigationPage/{nameof(SignIn)}");
+            else await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainList)}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -44,7 +43,6 @@ namespace ProfileBook
             containerRegistry.RegisterInstance<IRepository<Profile>>(Container.Resolve<Repository<Profile>>());
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve <SettingsManager>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
-            containerRegistry.RegisterInstance<IValidator>(Container.Resolve<Validator>());
             containerRegistry.RegisterInstance<IRegistrationService>(Container.Resolve<RegistrationService>());
             containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
 

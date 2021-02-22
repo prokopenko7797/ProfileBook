@@ -8,6 +8,7 @@ using System.ComponentModel;
 using ProfileBook.Enums;
 using ProfileBook.Servcies.Registration;
 using ProfileBook.Servcies.Repository;
+using ProfileBook.Views;
 
 namespace ProfileBook.ViewModels
 {
@@ -101,7 +102,7 @@ namespace ProfileBook.ViewModels
 
         private async void ExecuteddUserButtonTapCommand()
         {
-            switch (_registrationService.Registrate(Login, Password, ConfirmPassword))
+            switch (await _registrationService.Registrate(Login, Password, ConfirmPassword))
             {
                 case ValidEnum.NotInRangeLogin:
                     {
@@ -147,7 +148,7 @@ namespace ProfileBook.ViewModels
                         var p = new NavigationParameters();
                         p.Add("Login", Login);
 
-                        await _navigationService.NavigateAsync("/NavigationPage/SignIn", p);
+                        await _navigationService.NavigateAsync($"/NavigationPage/{nameof(SignIn)}", p);
                     }
                     break;
                 default:
