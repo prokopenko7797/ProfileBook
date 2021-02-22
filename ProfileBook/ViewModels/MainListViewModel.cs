@@ -20,7 +20,7 @@ namespace ProfileBook.ViewModels
         private DelegateCommand _LogOutToolBarCommand;
         private DelegateCommand _AddEditButtonClicked;
 
-
+        private string _tmp;
 
         #endregion
 
@@ -28,14 +28,23 @@ namespace ProfileBook.ViewModels
             : base(navigationService)
         {
             Title = "Main List";
+            
 
             _navigationService = navigationService;
             _settingsManager = settingsManager;
+
+
+            
         }
 
 
         #region -----Public Properties-----
 
+        public string tmp
+        {
+            get { return _tmp; }
+            set { SetProperty(ref _tmp, value); }
+        }
 
 
         public DelegateCommand AddEditButtonClicked =>
@@ -68,7 +77,7 @@ namespace ProfileBook.ViewModels
         private async void ExecuteNavigateLogOutToolBarCommand() 
         {
             _settingsManager.IdUser = -1;
-            await _navigationService.NavigateAsync("/NavigationPage/SingIn");
+            await _navigationService.NavigateAsync("/NavigationPage/SignIn");
         }
 
         #endregion

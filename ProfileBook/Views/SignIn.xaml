@@ -35,7 +35,7 @@
                       TextColor="Blue"
                       TextDecorations="Underline">
                             <Span.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding NavigateSingUpButtonTapCommand}"
+                                <TapGestureRecognizer Command="{Binding NavigateSignUpButtonTapCommand}"
                                               CommandParameter="https://xamarin.com" />
                             </Span.GestureRecognizers>
                         </Span>

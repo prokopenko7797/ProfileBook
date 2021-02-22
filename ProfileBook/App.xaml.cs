@@ -31,9 +31,9 @@ namespace ProfileBook
         {
             InitializeComponent();
             
-            //if(Preferences.Get("IdUser", -1) != -1) 
+            if(Preferences.Get("IdUser", -1) == -1) 
                 await NavigationService.NavigateAsync("NavigationPage/SignIn");
-            //else await NavigationService.NavigateAsync("NavigationPage/MainList");
+            else await NavigationService.NavigateAsync("NavigationPage/MainList");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -54,7 +54,7 @@ namespace ProfileBook
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<SignIn, SignInViewModel>();
-            containerRegistry.RegisterForNavigation<SingUp, SingUpViewModel>();
+            containerRegistry.RegisterForNavigation<SignUp, SignUpViewModel>();
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
         }

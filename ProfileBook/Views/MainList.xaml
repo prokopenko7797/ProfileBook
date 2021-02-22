@@ -16,13 +16,11 @@
 
         <ToolbarItem IconImageSource="ic_settings.png"
                      Order="Primary"
-                     Priority="0" 
+                     Priority="1" 
                      Command="{Binding SettingsToolBarCommand}"
                      />
     </ContentPage.ToolbarItems>
 
-
-  
 
 
 

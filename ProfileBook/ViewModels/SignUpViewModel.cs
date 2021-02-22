@@ -7,11 +7,11 @@ using ProfileBook.Models;
 using System.ComponentModel;
 using ProfileBook.Enums;
 using ProfileBook.Servcies.Registration;
-
+using ProfileBook.Servcies.Repository;
 
 namespace ProfileBook.ViewModels
 {
-    public class SingUpViewModel : ViewModelBase
+    public class SignUpViewModel : ViewModelBase
     {
 
         #region -----Private-----
@@ -31,7 +31,7 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        public SingUpViewModel(INavigationService navigationService, IRepository<User> repository,
+        public SignUpViewModel(INavigationService navigationService, IRepository<User> repository,
             IPageDialogService pageDialogService, IRegistrationService registrationService)
             : base(navigationService)
         {

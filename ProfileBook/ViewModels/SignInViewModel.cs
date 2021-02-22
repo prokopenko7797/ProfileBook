@@ -24,6 +24,8 @@ namespace ProfileBook.ViewModels
         private readonly IAuthorizationService _authorization;
 
 
+
+
         private string _Login;
         private string _Password;
         private bool _IsEnabled;
@@ -31,13 +33,13 @@ namespace ProfileBook.ViewModels
 
 
         private DelegateCommand _NavigateMainListCommand;
-        private DelegateCommand _NavigateSingUpCommand;
+        private DelegateCommand _NavigateSignUpCommand;
 
         #endregion
 
 
-        public SignInViewModel(INavigationService navigationService, IPageDialogService pageDialogService, 
-            IAuthorizationService authorization): base(navigationService)
+        public SignInViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
+        IAuthorizationService authorization): base(navigationService)
         {
             Title = "Users SignIn";
 
@@ -45,7 +47,6 @@ namespace ProfileBook.ViewModels
             _navigationService = navigationService;
             _pageDialogService = pageDialogService;
             _authorization = authorization;
-
 
         }
 
@@ -105,9 +106,9 @@ namespace ProfileBook.ViewModels
 
 
 
-        public DelegateCommand NavigateSingUpButtonTapCommand =>
-            _NavigateSingUpCommand ?? 
-            (_NavigateSingUpCommand = new DelegateCommand(ExecuteNavigateSingUpCommand));
+        public DelegateCommand NavigateSignUpButtonTapCommand =>
+            _NavigateSignUpCommand ?? 
+            (_NavigateSignUpCommand = new DelegateCommand(ExecuteNavigateSignUpCommand));
 
         #endregion
 
@@ -116,17 +117,17 @@ namespace ProfileBook.ViewModels
 
         #region -----Private Helpers-----
 
-        private async void ExecuteNavigateSingUpCommand()
+        private async void ExecuteNavigateSignUpCommand()
         {
-            await _navigationService.NavigateAsync("SingUp");
+            await _navigationService.NavigateAsync("SignUp");
 
         }
 
         private async void ExecuteNavigateMainViewCommand()
         {
             if (_authorization.Authorize(Login, Password))
-                await _navigationService.NavigateAsync("/NavigationPage/MainList");
-            
+                await NavigationService.NavigateAsync("/NavigationPage/MainList");
+
             else
                 await _pageDialogService.DisplayAlertAsync(
                         "Error", "Incorrect login or password.", "OK");
