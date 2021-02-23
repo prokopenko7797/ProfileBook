@@ -43,7 +43,7 @@ namespace ProfileBook.Servcies.ProfileService
 
         public async Task<List<Profile>> GetUserProfiles()
         {
-            return await _repository.Query($"SELECT * FROM User WHERE user_id='{_settingsManager.IdUser}'");
+            return await _repository.Query($"SELECT * FROM {nameof(Profile)} WHERE user_id='{_settingsManager.IdUser}'");
         }
     }
 }

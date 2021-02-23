@@ -13,7 +13,7 @@ namespace ProfileBook.Servcies.Registration
     {
 
         private readonly IRepository<User> _repository;
-        private readonly Validator _validator = new Validator();
+ 
 
         public RegistrationService(IRepository<User> repository)
         {
@@ -24,30 +24,30 @@ namespace ProfileBook.Servcies.Registration
 
         public async Task<ValidEnum>  Registrate(string login, string password, string confirmpassword)
         {
-            if (!_validator.InRange(login, 4, 16))
+            if (!Validator.InRange(login, 4, 16))
             {   
                 return ValidEnum.NotInRangeLogin;
             }
 
-            if (!_validator.InRange(password, 8, 16))
+            if (!Validator.InRange(password, 8, 16))
             {
                 return ValidEnum.NotInRangePassword;
             }
 
 
-            if (_validator.StartWithNumeral(login))
+            if (Validator.StartWithNumeral(login))
             {       
                 return ValidEnum.StartWithNum;
             }
 
-            if (!_validator.HasUpLowNum(password))
+            if (!Validator.HasUpLowNum(password))
             {
                 return ValidEnum.HasntUpLowNum;
             }
 
 
 
-            if (!_validator.Match(password, confirmpassword))
+            if (!Validator.Match(password, confirmpassword))
             {
                 
                 return ValidEnum.HasntMach;
@@ -55,7 +55,7 @@ namespace ProfileBook.Servcies.Registration
 
 
 
-            User user = await _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}'");
+            User user = await _repository.FindWithQuery($"SELECT * FROM {nameof(User)} WHERE login='{login}'");
 
             if (user != null)
             {

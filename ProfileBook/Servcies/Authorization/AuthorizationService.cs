@@ -22,7 +22,7 @@ namespace ProfileBook.Servcies.Authorization
         public async Task<bool> Authorize(string login, string password)
         {
 
-            var user = await _repository.FindWithQuery($"SELECT * FROM User WHERE login='{login}' AND password='{password}'");
+            var user = await _repository.FindWithQuery($"SELECT * FROM {nameof(User)} WHERE login='{login}' AND password='{password}'");
 
             if(user != null)
             {

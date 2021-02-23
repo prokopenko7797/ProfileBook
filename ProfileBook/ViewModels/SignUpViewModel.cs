@@ -32,8 +32,8 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        public SignUpViewModel(INavigationService navigationService, IRepository<User> repository,
-            IPageDialogService pageDialogService, IRegistrationService registrationService)
+        public SignUpViewModel(INavigationService navigationService, IPageDialogService pageDialogService, 
+            IRegistrationService registrationService)
             : base(navigationService)
         {
             Title = "Users SignUp";
