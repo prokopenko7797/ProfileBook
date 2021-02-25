@@ -14,8 +14,10 @@ namespace ProfileBook.Models
         public string nick_name { get; set; }
         [Column("name")]
         public string name { get; set; }
+        [Column("description")]
+        public string description { get; set; }
         [Column("image_path")]
-        public int image_path { get; set; }
+        public string image_path { get; set; }
         [Column("user_id")]
         public int user_id { get; set; }
         [Column("date")]

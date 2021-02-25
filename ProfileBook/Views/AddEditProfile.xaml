@@ -11,13 +11,14 @@
         <ToolbarItem IconImageSource="ic_save.png"
                      Order="Primary"
                      Priority="0" 
-                     Command="{Binding AddEditToolBarCommand}"
+                     Command="{Binding SaveToolBarCommand}"
                      />
     </ContentPage.ToolbarItems>
 
     <StackLayout Padding="30,10,30,10" HorizontalOptions="FillAndExpand"  VerticalOptions="StartAndExpand" >
 
-        <Image Source="pic_profile.png" >
+        
+        <Image Source="{Binding ImagePath}" >
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ImageTapCommand}" />
             </Image.GestureRecognizers>

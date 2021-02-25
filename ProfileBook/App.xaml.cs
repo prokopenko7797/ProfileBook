@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using ProfileBook.Servcies.Registration;
 using Xamarin.Essentials;
 using ProfileBook.Servcies.ProfileService;
+using Acr.UserDialogs;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 
 namespace ProfileBook
 {
@@ -45,6 +48,10 @@ namespace ProfileBook
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IRegistrationService>(Container.Resolve<RegistrationService>());
             containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
+
+
+            containerRegistry.RegisterInstance(UserDialogs.Instance);
+            containerRegistry.RegisterInstance(CrossMedia.Current);
 
 
 

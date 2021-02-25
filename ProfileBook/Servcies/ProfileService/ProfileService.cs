@@ -3,7 +3,6 @@ using ProfileBook.Servcies.Repository;
 using ProfileBook.Servcies.Settings;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProfileBook.Servcies.ProfileService
@@ -22,10 +21,11 @@ namespace ProfileBook.Servcies.ProfileService
 
         public async Task AddEdit(Profile profile)
         {
-            if (profile.id != -1)
+            if (profile.id != default)
                 await _repository.Update(profile);
             else
             {
+                profile.user_id = _settingsManager.IdUser;
                 profile.date = DateTime.Now;
                 await _repository.Insert(profile);
             }

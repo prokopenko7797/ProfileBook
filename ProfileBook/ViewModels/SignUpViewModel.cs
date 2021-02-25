@@ -2,12 +2,9 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using ProfileBook.Servcies;
-using ProfileBook.Models;
 using System.ComponentModel;
 using ProfileBook.Enums;
 using ProfileBook.Servcies.Registration;
-using ProfileBook.Servcies.Repository;
 using ProfileBook.Views;
 
 namespace ProfileBook.ViewModels
@@ -167,6 +164,8 @@ namespace ProfileBook.ViewModels
 
         #endregion
 
+
+        #region -----Overrides-----
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -179,6 +178,8 @@ namespace ProfileBook.ViewModels
                 else if (Login == "" || Password == "" || ConfirmPassword == "") IsEnabled = false;
             }
         }
+
+        #endregion
 
     }
 }
