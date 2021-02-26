@@ -26,8 +26,7 @@ namespace ProfileBook.ViewModels
         private readonly ISettingsManager _settingsManager;
         private readonly IProfileService _profileService;
 
-        private DelegateCommand _LogOutToolBarCommand;
-        private DelegateCommand _AddEditButtonClicked;
+        
 
 
         private ObservableCollection<Profile> _profileList;
@@ -88,34 +87,43 @@ namespace ProfileBook.ViewModels
             set { SetProperty(ref _IsVisible, value); }
         }
 
-
-        
-
-        public DelegateCommand AddEditButtonClicked =>
-            _AddEditButtonClicked ??
-            (_AddEditButtonClicked =
-            new DelegateCommand(ExecuteNavigateAddEditProfileCommand));
-
-
-        public DelegateCommand LogOutToolBarCommand =>
-            _LogOutToolBarCommand ??
-            (_LogOutToolBarCommand =
-            new DelegateCommand(ExecuteNavigateLogOutToolBarCommand));
-
-
-        public ICommand EditTap => new Command(Delete);
-        public ICommand DeleteTap => new Command(Edit);
-
-
         #endregion
 
+
+        #region _____Comdands______
+
+        private ICommand _LogOutToolBarCommand; 
+        private ICommand _SettingsToolBarCommand;
+        private ICommand _AddEditButtonClicked;
+        private ICommand _DeleteCommandTap;
+        private ICommand _EditCommandTap;
+
+        public ICommand LogOutToolBarCommand =>
+            _LogOutToolBarCommand ?? (_LogOutToolBarCommand =
+            new Command(ExecuteNavigateLogOutToolBarCommand));
+
+        public ICommand SettingsToolBarCommand =>
+            _SettingsToolBarCommand ?? (_SettingsToolBarCommand =
+            new Command(ExecuteNavigateSettingsCommand));
+
+        public ICommand AddEditButtonClicked =>
+            _AddEditButtonClicked ?? (_AddEditButtonClicked =
+            new Command(ExecuteNavigateAddEditProfileCommand));
+
+
+        public ICommand EditCommandTap => _EditCommandTap ?? (_EditCommandTap = new Command(EditCommand));
+
+
+        public ICommand DeleteCommandTap => _DeleteCommandTap ?? (_DeleteCommandTap = new Command(DeleteCommand));
+
+        #endregion
 
 
 
         #region -----Private Helpers-----
 
 
-        private async void Delete(object sender)
+        private async void DeleteCommand(object sender)
         {
             Profile profile = sender as Profile;
             if (profile == null) return;
@@ -128,12 +136,12 @@ namespace ProfileBook.ViewModels
             if (result)
             {
                 await _profileService.Dalete(profile.id);
-                ProfileList = new ObservableCollection<Profile>(await _profileService.GetUserProfiles());
+                UpdateCollection();
             }
         }
 
 
-        private async void Edit(object sender)
+        private async void EditCommand(object sender)
         {
             Profile profile = sender as Profile;
             if (profile == null) return;
@@ -158,6 +166,14 @@ namespace ProfileBook.ViewModels
         }
 
 
+        private async void ExecuteNavigateSettingsCommand()
+        {
+            await _navigationService.NavigateAsync($"/NavigationPage/Settings");
+            /////////////////////////////////////////////////////////////////
+
+        }
+
+
         private async void ExecuteNavigateLogOutToolBarCommand() 
         {
             _settingsManager.IdUser = -1;
@@ -167,11 +183,17 @@ namespace ProfileBook.ViewModels
         #endregion
 
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
+            UpdateCollection();
 
+
+        }
+
+        private async void UpdateCollection()
+        {
             ProfileList = new ObservableCollection<Profile>(await _profileService.GetUserProfiles());
             if (ProfileList.Count() != 0) IsVisible = false;
             else IsVisible = true;

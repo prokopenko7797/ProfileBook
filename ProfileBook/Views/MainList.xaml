@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="ProfileBook.Views.MainList"
-             x:Name="ListPage1"
+             x:Class="ProfileBook.Views.MainList"             
              Title="{Binding Title}">
 
 
@@ -37,18 +36,18 @@
             <ListView ItemsSource="{Binding ProfileList}" 
                       RowHeight="100" 
                       Margin="10"
-                      x:Name="MyListView">
+                      x:Name="ListView1">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell Height="100">
+                        <ViewCell>
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Edit"
-                                          Command="{Binding Path=BindingContext.EditTap, 
-                                                            Source={x:Reference ListPage1}}" 
+                                          Command="{Binding Path=BindingContext.EditCommandTap, 
+                                                            Source={x:Reference ListView1}}" 
                                           CommandParameter="{Binding .}"/>
                                 <MenuItem Text="Delete" 
-                                          Command="{Binding Path=BindingContext.DeleteTap, 
-                                                            Source={x:Reference ListPage1}}" 
+                                          Command="{Binding Path=BindingContext.DeleteCommandTap, 
+                                                            Source={x:Reference ListView1}}" 
                                           CommandParameter="{Binding .}"/>
                             </ViewCell.ContextActions>
                             <StackLayout Orientation="Horizontal" 
@@ -60,7 +59,6 @@
                                 </Image>
                                 <StackLayout VerticalOptions="Center" Margin="10,0,0,0">
                                     <Label Text="{Binding nick_name}" 
-                                       
                                            FontAttributes="Bold" />
                                     <Label Text="{Binding name}" />
                                     <Label Text="{Binding date}" />
