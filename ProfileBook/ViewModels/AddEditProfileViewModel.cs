@@ -10,6 +10,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using System;
 using Acr.UserDialogs;
+using ProfileBook.Servcies.Settings;
 
 namespace ProfileBook.ViewModels
 {
@@ -27,6 +28,7 @@ namespace ProfileBook.ViewModels
         private readonly IProfileService _profileService;
         private readonly IMedia _media;
         private readonly IUserDialogs _userDialogs;
+        private readonly ISettingsManager _settingsManager;
 
 
         private DelegateCommand _SaveToolBarCommand;
@@ -34,7 +36,7 @@ namespace ProfileBook.ViewModels
 
 
         public AddEditProfileViewModel(INavigationService navigationService, IProfileService profileService,
-            IMedia media, IUserDialogs userDialogs)
+            IMedia media, IUserDialogs userDialogs, ISettingsManager settingsManager)
             : base(navigationService)
         {
             Title = "Add Profile";
@@ -42,6 +44,7 @@ namespace ProfileBook.ViewModels
             _profileService = profileService;
             _userDialogs = userDialogs;
             _media = media;
+            _settingsManager = settingsManager;
 
             ImagePath = "pic_profile.png";
 
@@ -89,13 +92,20 @@ namespace ProfileBook.ViewModels
 
         private async void ExecuteSaveToolBarCommand()
         {
-            if(_profile.nick_name == default || _profile.nick_name == "")
+            if(NickName.Length < 1)
             {
                 await _userDialogs.AlertAsync("NickName is empty", "Error", "OK");
             } 
             else if (_profile.name != Name || _profile.nick_name != NickName
                     || _profile.image_path != ImagePath || _profile.description != Description)
             {
+                _profile.name = Name;
+                _profile.nick_name = NickName;
+                _profile.description = Description;
+                _profile.image_path = ImagePath;
+                _profile.user_id = _settingsManager.IdUser;
+                _profile.date = DateTime.Now;
+
                 await _profileService.AddEdit(_profile);
 
                 await _navigationService.GoBackAsync();

@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.MainList"
+             x:Name="ListPage1"
              Title="{Binding Title}">
 
 
@@ -21,16 +22,69 @@
                      />
     </ContentPage.ToolbarItems>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        
+        <Label Text="No profiles added." 
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="{Binding IsVisible}"></Label>
 
+        <ScrollView>
+            <ListView ItemsSource="{Binding ProfileList}" 
+                      RowHeight="100" 
+                      Margin="10"
+                      x:Name="MyListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="100">
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Edit"
+                                          Command="{Binding Path=BindingContext.EditTap, 
+                                                            Source={x:Reference ListPage1}}" 
+                                          CommandParameter="{Binding .}"/>
+                                <MenuItem Text="Delete" 
+                                          Command="{Binding Path=BindingContext.DeleteTap, 
+                                                            Source={x:Reference ListPage1}}" 
+                                          CommandParameter="{Binding .}"/>
+                            </ViewCell.ContextActions>
+                            <StackLayout Orientation="Horizontal" 
+                                         VerticalOptions="FillAndExpand" 
+                                         HorizontalOptions="FillAndExpand">
+                                <Image Source="{Binding image_path}" 
+                                       Aspect="AspectFit" Margin="5">
+                               
+                                </Image>
+                                <StackLayout VerticalOptions="Center" Margin="10,0,0,0">
+                                    <Label Text="{Binding nick_name}" 
+                                       
+                                           FontAttributes="Bold" />
+                                    <Label Text="{Binding name}" />
+                                    <Label Text="{Binding date}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
 
-
-        <ImageButton
+        <Button Grid.Row="0" 
+            BackgroundColor="#1790fb"
+            BorderColor="Gray"
+            CornerRadius="50"
+            BorderWidth="7"
             WidthRequest="100" 
-            HeightRequest="100"
+            HeightRequest="100"            
             VerticalOptions="End"
             HorizontalOptions="End"
+            Margin="0,0,20,20"
             Command="{Binding AddEditButtonClicked}"           
-            Source="ic_add.png"/>
+            ImageSource="ic_add.png"/>
+    </Grid>
 
 
 

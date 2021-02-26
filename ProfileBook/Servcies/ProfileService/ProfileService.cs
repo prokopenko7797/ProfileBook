@@ -16,24 +16,29 @@ namespace ProfileBook.Servcies.ProfileService
         {
             _repository = repository;
             _settingsManager = settingsManager;
-    }
-
-
-        public async Task AddEdit(Profile profile)
-        {
-            if (profile.id != default)
-                await _repository.Update(profile);
-            else
-            {
-                profile.user_id = _settingsManager.IdUser;
-                profile.date = DateTime.Now;
-                await _repository.Insert(profile);
-            }
         }
 
-        public async Task Dalete(int id) 
+
+        public async Task<bool> AddEdit(Profile profile)
         {
-            await _repository.Delete(id);
+            if (profile.id != default)
+            { 
+                if (await _repository.Update(profile) != -1)
+                    return true; 
+            }
+            else
+            {
+                if (await _repository.Insert(profile) != -1)
+                    return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> Dalete(int id) 
+        {
+            if (await _repository.Delete(id) != -1)
+                return true;
+            else return false;
         }
 
         public async Task<Profile> GetProfile(int id)

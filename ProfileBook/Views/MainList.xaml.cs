@@ -8,5 +8,6 @@ namespace ProfileBook.Views
         {
             InitializeComponent();
         }
+
     }
 }

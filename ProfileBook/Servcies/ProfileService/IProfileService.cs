@@ -8,8 +8,8 @@ namespace ProfileBook.Servcies.ProfileService
 {
     public interface IProfileService
     {
-        Task Dalete(int id);
-        Task AddEdit(Profile profile);
+        Task<bool> Dalete(int id);
+        Task<bool> AddEdit(Profile profile);
         Task<Profile> GetProfile(int id);
         Task<List<Profile>> GetUserProfiles();
 
