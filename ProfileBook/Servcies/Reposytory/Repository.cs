@@ -5,6 +5,7 @@ using SQLite;
 using ProfileBook.Models;
 using System.IO;
 using System.Threading.Tasks;
+using ProfileBook.Constants;
 
 namespace ProfileBook.Servcies.Repository
 {
@@ -16,7 +17,7 @@ namespace ProfileBook.Servcies.Repository
         {
             _database = new SQLiteAsyncConnection(
                 Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.LocalApplicationData), "sqlite.db"));
+                    Environment.SpecialFolder.LocalApplicationData), Constant.DB_Name));
             _database.CreateTableAsync<T>();
         }
 

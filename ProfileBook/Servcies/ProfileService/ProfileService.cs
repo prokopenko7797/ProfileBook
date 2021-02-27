@@ -1,9 +1,12 @@
-﻿using ProfileBook.Models;
+﻿using ProfileBook.Constants;
+using ProfileBook.Models;
 using ProfileBook.Servcies.Repository;
 using ProfileBook.Servcies.Settings;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using ProfileBook.Enums;
 
 namespace ProfileBook.Servcies.ProfileService
 {
@@ -23,12 +26,12 @@ namespace ProfileBook.Servcies.ProfileService
         {
             if (profile.id != default)
             { 
-                if (await _repository.Update(profile) != -1)
+                if (await _repository.Update(profile) != Constant.SQLError)
                     return true; 
             }
             else
             {
-                if (await _repository.Insert(profile) != -1)
+                if (await _repository.Insert(profile) != Constant.SQLError)
                     return true;
             }
             return false;
@@ -36,7 +39,7 @@ namespace ProfileBook.Servcies.ProfileService
 
         public async Task<bool> Dalete(int id) 
         {
-            if (await _repository.Delete(id) != -1)
+            if (await _repository.Delete(id) != Constant.SQLError)
                 return true;
             else return false;
         }
@@ -46,9 +49,33 @@ namespace ProfileBook.Servcies.ProfileService
             return await _repository.GetById(id);
         }
 
-        public async Task<List<Profile>> GetUserProfiles()
+        public async Task<IEnumerable<Profile>> GetUserProfiles()
         {
             return await _repository.Query($"SELECT * FROM {nameof(Profile)} WHERE user_id='{_settingsManager.IdUser}'");
+        }
+
+        public async Task<IEnumerable<Profile>> GetUserSortedProfiles()
+        {
+            IEnumerable<Profile> p = await GetUserProfiles();
+
+            switch (_settingsManager.SortBy)
+            {
+                case (int)SortEnum.date:
+                    p = p.OrderBy(Profile => Profile.date);
+                    break;
+
+                case (int)SortEnum.nick_name:
+                    p = p.OrderBy(Profile => Profile.nick_name);
+                    break;
+
+                case (int)SortEnum.name:
+                    p = p.OrderBy(Profile => Profile.name);
+                    break;
+                default:
+                    break;
+            }
+
+            return p;
         }
     }
 }

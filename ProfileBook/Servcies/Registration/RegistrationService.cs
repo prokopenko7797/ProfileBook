@@ -1,4 +1,5 @@
-﻿using ProfileBook.Enums;
+﻿using ProfileBook.Constants;
+using ProfileBook.Enums;
 using ProfileBook.Models;
 using ProfileBook.Servcies.Repository;
 using ProfileBook.Validators;
@@ -24,12 +25,12 @@ namespace ProfileBook.Servcies.Registration
 
         public async Task<ValidEnum>  Registrate(string login, string password, string confirmpassword)
         {
-            if (!Validator.InRange(login, 4, 16))
+            if (!Validator.InRange(login, Constant.MinLoginLength, Constant.MaxLoginLength))
             {   
                 return ValidEnum.NotInRangeLogin;
             }
 
-            if (!Validator.InRange(password, 8, 16))
+            if (!Validator.InRange(password, Constant.MinPasswordLength, Constant.MaxPasswordLength))
             {
                 return ValidEnum.NotInRangePassword;
             }

@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using ProfileBook.Constants;
 using ProfileBook.Models;
 using ProfileBook.Servcies.ProfileService;
 using ProfileBook.Servcies.Settings;
@@ -160,7 +161,7 @@ namespace ProfileBook.ViewModels
 
         private async void NavigateSettingsCommand()
         {
-            await _navigationService.NavigateAsync($"/NavigationPage/Settings");
+            await _navigationService.NavigateAsync($"{nameof(Settings)}");
             /////////////////////////////////////////////////////////////////
 
         }
@@ -168,7 +169,7 @@ namespace ProfileBook.ViewModels
 
         private async void NavigateLogOutToolBarCommand() 
         {
-            _settingsManager.IdUser = -1;
+            _settingsManager.IdUser = Constant.NonAuthorized;
             await _navigationService.NavigateAsync($"/NavigationPage/{nameof(SignIn)}");
         }
 
@@ -186,7 +187,10 @@ namespace ProfileBook.ViewModels
 
         private async void UpdateCollection()
         {
-            ProfileList = new ObservableCollection<Profile>(await _profileService.GetUserProfiles());
+            ProfileList = new ObservableCollection<Profile>(await _profileService.GetUserSortedProfiles());
+
+
+
             if (ProfileList.Count() != 0) IsVisible = false;
             else IsVisible = true;
         }

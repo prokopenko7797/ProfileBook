@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using System;
 using Acr.UserDialogs;
 using ProfileBook.Servcies.Settings;
+using ProfileBook.Constants;
 
 namespace ProfileBook.ViewModels
 {
@@ -46,7 +47,7 @@ namespace ProfileBook.ViewModels
             _media = media;
             _settingsManager = settingsManager;
 
-            ImagePath = "pic_profile.png";
+            ImagePath = Constant.DefaultProfileImage;
 
         }
 
@@ -120,7 +121,7 @@ namespace ProfileBook.ViewModels
         {
             if (_media.IsPickPhotoSupported)
             {
-                var image = await _media.PickPhotoAsync(new PickMediaOptions { PhotoSize = PhotoSize.Medium});
+                var image = await _media.PickPhotoAsync(new PickMediaOptions());
                 if (image != null)
                 {
                     ImagePath = image.Path;

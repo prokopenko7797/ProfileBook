@@ -17,6 +17,7 @@ using ProfileBook.Servcies.ProfileService;
 using Acr.UserDialogs;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using ProfileBook.Constants;
 
 namespace ProfileBook
 {
@@ -33,7 +34,7 @@ namespace ProfileBook
         {
             InitializeComponent();
             
-            if(Preferences.Get("IdUser", -1) == -1) 
+            if(Preferences.Get("IdUser", Constant.NonAuthorized) == Constant.NonAuthorized) 
                 await NavigationService.NavigateAsync($"NavigationPage/{nameof(SignIn)}");
             else await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainList)}");
         }
@@ -63,6 +64,7 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<MainList, MainListViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfile, AddEditProfileViewModel>();
             containerRegistry.RegisterForNavigation<ProfileImage, ProfileImageViewModel>();
+            containerRegistry.RegisterForNavigation<Settings, SettingsViewModel>();
         }
     }
 }

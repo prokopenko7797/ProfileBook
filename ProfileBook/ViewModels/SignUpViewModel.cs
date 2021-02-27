@@ -6,6 +6,7 @@ using System.ComponentModel;
 using ProfileBook.Enums;
 using ProfileBook.Servcies.Registration;
 using ProfileBook.Views;
+using ProfileBook.Constants;
 
 namespace ProfileBook.ViewModels
 {
@@ -104,14 +105,16 @@ namespace ProfileBook.ViewModels
                 case ValidEnum.NotInRangeLogin:
                     {
                         await _pageDialogService.DisplayAlertAsync(
-                        "Error", "Login must be at least 4 and no more than 16 characters.", "OK");
+                        "Error", $"Login must be at least {Constant.MinLoginLength} " +
+                        $"and no more than {Constant.MaxLoginLength} characters.", "OK");
                     }
                     break;
 
                 case ValidEnum.NotInRangePassword:
                     {
                         await _pageDialogService.DisplayAlertAsync(
-                        "Error", "Password must be at least 8 and no more than 16 characters.", "OK");
+                        "Error", $"Password must be at least {Constant.MinPasswordLength} " +
+                        $"and no more than {Constant.MaxPasswordLength} characters.", "OK");
                     }
                     break;
                 case ValidEnum.HasntMach:

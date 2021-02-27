@@ -11,7 +11,8 @@ namespace ProfileBook.Servcies.ProfileService
         Task<bool> Dalete(int id);
         Task<bool> AddEdit(Profile profile);
         Task<Profile> GetProfile(int id);
-        Task<List<Profile>> GetUserProfiles();
+        Task<IEnumerable<Profile>> GetUserProfiles();
+        Task<IEnumerable<Profile>> GetUserSortedProfiles();
 
 
     }
