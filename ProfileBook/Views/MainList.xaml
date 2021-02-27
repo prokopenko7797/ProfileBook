@@ -36,6 +36,7 @@
             <ListView ItemsSource="{Binding ProfileList}" 
                       RowHeight="100" 
                       Margin="10"
+                      SelectionMode="None"
                       x:Name="ListView1">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -50,20 +51,26 @@
                                                             Source={x:Reference ListView1}}" 
                                           CommandParameter="{Binding .}"/>
                             </ViewCell.ContextActions>
-                            <StackLayout Orientation="Horizontal" 
-                                         VerticalOptions="FillAndExpand" 
-                                         HorizontalOptions="FillAndExpand">
-                                <Image Source="{Binding image_path}" 
-                                       Aspect="AspectFit" Margin="5">
-                               
-                                </Image>
-                                <StackLayout VerticalOptions="Center" Margin="10,0,0,0">
-                                    <Label Text="{Binding nick_name}" 
-                                           FontAttributes="Bold" />
-                                    <Label Text="{Binding name}" />
-                                    <Label Text="{Binding date}" />
-                                </StackLayout>
-                            </StackLayout>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="0.7*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Grid.RowSpan="3" Source="{Binding image_path}"  Aspect="AspectFit" Margin="5">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.ImageCommandTap, 
+                                                                Source={x:Reference ListView1}}" 
+                                              CommandParameter="{Binding .}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding nick_name}" FontAttributes="Bold" />
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding name}" />
+                                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding date}" />
+
+                                </Grid>
+
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

@@ -120,7 +120,7 @@ namespace ProfileBook.ViewModels
         {
             if (_media.IsPickPhotoSupported)
             {
-                var image = await _media.PickPhotoAsync(new PickMediaOptions { PhotoSize = PhotoSize.Small});
+                var image = await _media.PickPhotoAsync(new PickMediaOptions { PhotoSize = PhotoSize.Medium});
                 if (image != null)
                 {
                     ImagePath = image.Path;
@@ -132,7 +132,8 @@ namespace ProfileBook.ViewModels
         {
             if (_media.IsTakePhotoSupported)
             {
-                var image = await _media.TakePhotoAsync(new StoreCameraMediaOptions { Name = $"{DateTime.Now }.jpg" });
+                var image = await _media.TakePhotoAsync(new StoreCameraMediaOptions 
+                                                        { Name = $"{DateTime.Now }.jpg", PhotoSize = PhotoSize.Medium });
                 if (image != null)
                 {
                     ImagePath = image.Path;

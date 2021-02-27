@@ -30,7 +30,6 @@ namespace ProfileBook.ViewModels
 
 
         private ObservableCollection<Profile> _profileList;
-        private Profile _selectedProfile;
 
 
         private string _tmp;
@@ -64,22 +63,11 @@ namespace ProfileBook.ViewModels
             set { SetProperty(ref _profileList, value); }
         }
 
-
-        public Profile selectedProfile
-        {
-            get { return _selectedProfile; }
-            set { SetProperty(ref _selectedProfile, value); }
-        }
-
-
-
         public string tmp
         {
             get { return _tmp; }
             set { SetProperty(ref _tmp, value); }
         }
-
-
 
         public bool IsVisible
         {
@@ -97,24 +85,25 @@ namespace ProfileBook.ViewModels
         private ICommand _AddEditButtonClicked;
         private ICommand _DeleteCommandTap;
         private ICommand _EditCommandTap;
+        private ICommand _ImageCommandTap;
 
         public ICommand LogOutToolBarCommand =>
             _LogOutToolBarCommand ?? (_LogOutToolBarCommand =
-            new Command(ExecuteNavigateLogOutToolBarCommand));
+            new Command(NavigateLogOutToolBarCommand));
 
         public ICommand SettingsToolBarCommand =>
             _SettingsToolBarCommand ?? (_SettingsToolBarCommand =
-            new Command(ExecuteNavigateSettingsCommand));
+            new Command(NavigateSettingsCommand));
 
         public ICommand AddEditButtonClicked =>
             _AddEditButtonClicked ?? (_AddEditButtonClicked =
-            new Command(ExecuteNavigateAddEditProfileCommand));
-
+            new Command(NavigateAddEditProfileCommand));
 
         public ICommand EditCommandTap => _EditCommandTap ?? (_EditCommandTap = new Command(EditCommand));
 
-
         public ICommand DeleteCommandTap => _DeleteCommandTap ?? (_DeleteCommandTap = new Command(DeleteCommand));
+
+        public ICommand ImageCommandTap => _ImageCommandTap ?? (_ImageCommandTap = new Command(ModalImageComand));
 
         #endregion
 
@@ -144,29 +133,32 @@ namespace ProfileBook.ViewModels
         private async void EditCommand(object sender)
         {
             Profile profile = sender as Profile;
-            if (profile == null) return;
 
             var p = new NavigationParameters();
-            p.Add("profile", profile);
+            p.Add(nameof(Profile), profile);
 
             await _navigationService.NavigateAsync($"{nameof(AddEditProfile)}", p);
         }
 
 
-        private void ProfileSelect(Profile profile)
+        private async void ModalImageComand(object sender)
         {
-            // add modal image
+            Profile profile = sender as Profile;
+
+            var p = new NavigationParameters();
+            p.Add(nameof(Profile.image_path), profile.image_path);
+            await _navigationService.NavigateAsync($"{nameof(ProfileImage)}", p, true, true);
         }
 
 
-        private async void ExecuteNavigateAddEditProfileCommand()
+        private async void NavigateAddEditProfileCommand()
         {
             await _navigationService.NavigateAsync($"{nameof(AddEditProfile)}");
 
         }
 
 
-        private async void ExecuteNavigateSettingsCommand()
+        private async void NavigateSettingsCommand()
         {
             await _navigationService.NavigateAsync($"/NavigationPage/Settings");
             /////////////////////////////////////////////////////////////////
@@ -174,7 +166,7 @@ namespace ProfileBook.ViewModels
         }
 
 
-        private async void ExecuteNavigateLogOutToolBarCommand() 
+        private async void NavigateLogOutToolBarCommand() 
         {
             _settingsManager.IdUser = -1;
             await _navigationService.NavigateAsync($"/NavigationPage/{nameof(SignIn)}");
