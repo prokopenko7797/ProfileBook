@@ -33,8 +33,10 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            
-            if(Preferences.Get("IdUser", Constant.NonAuthorized) == Constant.NonAuthorized) 
+
+            Application.Current.UserAppTheme = (OSAppTheme)Preferences.Get("Theme", Constant.DefaultTheme);
+
+            if (Preferences.Get("IdUser", Constant.NonAuthorized) == Constant.NonAuthorized) 
                 await NavigationService.NavigateAsync($"NavigationPage/{nameof(SignIn)}");
             else await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainList)}");
         }

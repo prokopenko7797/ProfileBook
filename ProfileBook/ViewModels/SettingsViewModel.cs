@@ -6,7 +6,9 @@ using ProfileBook.Constants;
 using ProfileBook.Servcies.Settings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
@@ -23,6 +25,9 @@ namespace ProfileBook.ViewModels
             _userDialogs = userDialogs;
             _navigationService = navigationService;
 
+
+            Theme = (int)Application.Current.RequestedTheme;
+
         }
 
  
@@ -35,9 +40,17 @@ namespace ProfileBook.ViewModels
             set { SetProperty(ref _Selection, value); }
         }
 
-        private string _Theme;
+        private bool _IsChecked;
 
-        public string Theme
+        public bool IsChecked
+        {
+            get { return _IsChecked; }
+            set { SetProperty(ref _IsChecked, value); }
+        }
+
+        private int _Theme;
+
+        public int Theme
         {
             get { return _Theme; }
             set { SetProperty(ref _Theme, value); }
@@ -63,8 +76,17 @@ namespace ProfileBook.ViewModels
         {
             _settingsManager.SortBy = Selection;
 
-            _settingsManager.Theme = Theme;
-
+            if (IsChecked == true)
+            {
+                _settingsManager.Theme = (int)OSAppTheme.Dark;
+                Application.Current.UserAppTheme = OSAppTheme.Dark;
+            }
+            else 
+            { 
+                _settingsManager.Theme = (int)OSAppTheme.Unspecified;
+                Application.Current.UserAppTheme = OSAppTheme.Unspecified;
+            }
+            
             _settingsManager.Lang = Lang;
 
             await _navigationService.GoBackAsync();
@@ -79,6 +101,12 @@ namespace ProfileBook.ViewModels
             Theme = _settingsManager.Theme;
 
             Lang = _settingsManager.Lang;
+
+            if (_settingsManager.Theme == (int)OSAppTheme.Unspecified)
+                IsChecked = false;
+            else IsChecked = true;
         }
+
+
     }
 }

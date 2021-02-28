@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace ProfileBook.Constants
 {
@@ -17,6 +18,6 @@ namespace ProfileBook.Constants
         public const string DefaultProfileImage = "pic_profile.png";
         public const int DefaultSort = (int)SortEnum.nick_name;
         public const int DefaultLanguage = (int)LangEnum.en;
-        public const string DefaultTheme = "white";
+        public const int DefaultTheme = (int)OSAppTheme.Unspecified;
     }
 }

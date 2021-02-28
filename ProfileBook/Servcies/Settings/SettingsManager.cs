@@ -27,7 +27,7 @@ namespace ProfileBook.Servcies.Settings
             set => Preferences.Set(nameof(Lang), value);
         }
 
-        public string Theme
+        public int Theme
         {
             get => Preferences.Get(nameof(Theme), Constant.DefaultTheme);
             set => Preferences.Set(nameof(Theme), value);

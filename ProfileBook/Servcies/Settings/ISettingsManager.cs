@@ -10,6 +10,6 @@ namespace ProfileBook.Servcies.Settings
         int IdUser { get; set; }
         int SortBy { get; set; }
         int Lang { get; set; }
-        string Theme { get; set; }
+        int Theme { get; set; }
     }
 }
