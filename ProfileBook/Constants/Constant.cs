@@ -17,7 +17,7 @@ namespace ProfileBook.Constants
         public const int SQLError = -1;
         public const string DefaultProfileImage = "pic_profile.png";
         public const int DefaultSort = (int)SortEnum.nick_name;
-        public const int DefaultLanguage = (int)LangEnum.en;
+        public const string DefaultLanguage = "en";
         public const int DefaultTheme = (int)OSAppTheme.Unspecified;
     }
 }

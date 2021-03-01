@@ -21,7 +21,7 @@ namespace ProfileBook.Servcies.Settings
             set => Preferences.Set(nameof(SortBy), value);
         }
 
-        public int Lang
+        public string Lang
         {
             get => Preferences.Get(nameof(Lang), Constant.DefaultLanguage);
             set => Preferences.Set(nameof(Lang), value);

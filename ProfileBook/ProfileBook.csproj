@@ -26,8 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\LocalizationResource.ru.resx">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\LocalizationResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LocalizationResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainList.xaml">
@@ -46,5 +50,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+
 
 </Project>

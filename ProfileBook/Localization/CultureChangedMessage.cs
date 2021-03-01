@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProfileBook.Localization
 {
-    class CultureChangedMessage
+    public class CultureChangedMessage
     {
         public CultureInfo NewCultureInfo { get; private set; }
 

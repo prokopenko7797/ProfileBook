@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MainList" xml:space="preserve">
-    <value>MainList page</value>
+    <value>Главная страница</value>
   </data>
   <data name="MainListTitle" xml:space="preserve">
-    <value>TitleMainpage</value>
+    <value>Главная страницафыфы</value>
   </data>
 </root>

@@ -8,9 +8,9 @@ using Xamarin.Forms;
 
 namespace ProfileBook.Localization
 {
-    class LocalizedResources : INotifyPropertyChanged
+    public class LocalizedResources : INotifyPropertyChanged
     {
-        const string DEFAULT_LANGUAGE = "en";
+        const string DEFAULT_LANGUAGE = "en-US";
 
         readonly ResourceManager ResourceManager;
         CultureInfo CurrentCultureInfo;

@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Constants;
 using ProfileBook.Models;
+using ProfileBook.Resources;
 using ProfileBook.Servcies.ProfileService;
 using ProfileBook.Servcies.Settings;
 using ProfileBook.Views;
@@ -43,8 +44,12 @@ namespace ProfileBook.ViewModels
             IProfileService profileService)
             : base(navigationService)
         {
-            Title = "Main List";
-            
+            //Title = LocalizationResource.MainList;
+            //Title = Resources["MainList"];
+            //Title = "Main List";
+            //xmlns:resources="clr-namespace:ProfileBook.Resources"
+            // Title="{x:Static resources:LocalizationResource.MainList}">
+            //Title = (this.BindingContext as MainListViewModel).Resources["TheResourceYouWant"];
 
             _navigationService = navigationService;
             _settingsManager = settingsManager;

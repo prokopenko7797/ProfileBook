@@ -3,11 +3,15 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Constants;
+using ProfileBook.Localization;
+using ProfileBook.Resources;
 using ProfileBook.Servcies.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
@@ -56,9 +60,9 @@ namespace ProfileBook.ViewModels
             set { SetProperty(ref _Theme, value); }
         }
 
-        private int _Lang;
+        private string _Lang;
 
-        public int Lang
+        public string Lang
         {
             get { return _Lang; }
             set { SetProperty(ref _Lang, value); }
@@ -78,11 +82,24 @@ namespace ProfileBook.ViewModels
 
             if (IsChecked == true)
             {
+                //Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
+                //LocalizationResource.Culture = new CultureInfo("ru", false);
+
+
+
+                MessagingCenter.Send<object, CultureChangedMessage>(this,
+               string.Empty, new CultureChangedMessage("ru"));
+
                 _settingsManager.Theme = (int)OSAppTheme.Dark;
                 Application.Current.UserAppTheme = OSAppTheme.Dark;
             }
             else 
-            { 
+            {
+                //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+                //LocalizationResource.Culture = new CultureInfo("en-US", false);
+                MessagingCenter.Send<object, CultureChangedMessage>(this,
+                    string.Empty, new CultureChangedMessage("en-US"));
+
                 _settingsManager.Theme = (int)OSAppTheme.Unspecified;
                 Application.Current.UserAppTheme = OSAppTheme.Unspecified;
             }

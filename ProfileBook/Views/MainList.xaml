@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:local="clr-namespace:ProfileBook"
              x:Class="ProfileBook.Views.MainList"             
-             Title="{Binding Title}">
-
+             xmlns:resources = "clr-namespace:ProfileBook.Resources"
+             Title = "{Binding Resources[MainList]}" >
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="ic_exit_to_app.png"
