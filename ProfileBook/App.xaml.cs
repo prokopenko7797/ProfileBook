@@ -23,8 +23,20 @@ namespace ProfileBook
 {
     public partial class App
     {
-        
-     
+
+        #region -----Services----
+        private ISettingsManager _settingsManager;
+        private ISettingsManager settingsManager => 
+            _settingsManager ?? (_settingsManager = Container.Resolve<ISettingsManager>());
+
+        private IAuthorizationService _authorizationService;
+        private IAuthorizationService authorizationService =>
+            _authorizationService ?? (_authorizationService = Container.Resolve<IAuthorizationService>());
+
+
+
+        #endregion
+
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
@@ -34,9 +46,9 @@ namespace ProfileBook
         {
             InitializeComponent();
 
-            Application.Current.UserAppTheme = (OSAppTheme)Preferences.Get("Theme", Constant.DefaultTheme);
+            Application.Current.UserAppTheme = (OSAppTheme)settingsManager.Theme;
 
-            if (Preferences.Get("IdUser", Constant.NonAuthorized) == Constant.NonAuthorized) 
+            if (authorizationService.IsAuthorize()) 
                 await NavigationService.NavigateAsync($"NavigationPage/{nameof(SignIn)}");
             else await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainList)}");
         }

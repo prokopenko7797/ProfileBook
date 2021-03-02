@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using ProfileBook.Enums;
+using ProfileBook.Servcies.Authorization;
 
 namespace ProfileBook.Servcies.ProfileService
 {
@@ -14,11 +15,14 @@ namespace ProfileBook.Servcies.ProfileService
     {
         private readonly IRepository<Profile> _repository;
         private readonly ISettingsManager _settingsManager;
+        private readonly IAuthorizationService _authorizationService;
 
-        public ProfileService(IRepository<Profile> repository, ISettingsManager settingsManager)
+        public ProfileService(IRepository<Profile> repository, ISettingsManager settingsManager,
+            IAuthorizationService authorizationService)
         {
             _repository = repository;
             _settingsManager = settingsManager;
+            _authorizationService = authorizationService;
         }
 
 
@@ -51,7 +55,8 @@ namespace ProfileBook.Servcies.ProfileService
 
         public async Task<IEnumerable<Profile>> GetUserProfiles()
         {
-            return await _repository.Query($"SELECT * FROM {nameof(Profile)} WHERE user_id='{_settingsManager.IdUser}'");
+            return await _repository.Query($"SELECT * FROM {nameof(Profile)} " +
+                $"WHERE user_id='{_authorizationService.IdUser}'");
         }
 
         public async Task<IEnumerable<Profile>> GetUserSortedProfiles()

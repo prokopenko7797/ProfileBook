@@ -83,7 +83,8 @@ namespace ProfileBook.ViewModels
    
         public DelegateCommand NavigateMainListButtonTapCommand =>
             _NavigateMainListCommand ?? 
-            (_NavigateMainListCommand = new DelegateCommand(ExecuteNavigateMainViewCommand).ObservesCanExecute(() => IsEnabled));
+            (_NavigateMainListCommand = new DelegateCommand(ExecuteNavigateMainViewCommand)
+                                                            .ObservesCanExecute(() => IsEnabled));
 
 
 

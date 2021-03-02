@@ -9,11 +9,6 @@ namespace ProfileBook.Servcies.Settings
 {
     public class SettingsManager: ISettingsManager
     {
-        public int IdUser 
-        { 
-            get=>Preferences.Get(nameof (IdUser), Constant.NonAuthorized);
-            set=>Preferences.Set(nameof(IdUser), value); 
-        }
 
         public int SortBy
         {

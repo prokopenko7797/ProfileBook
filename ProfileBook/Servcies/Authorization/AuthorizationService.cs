@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ProfileBook.Constants;
 using ProfileBook.Models;
 using ProfileBook.Servcies.Repository;
 using ProfileBook.Servcies.Settings;
@@ -26,11 +27,28 @@ namespace ProfileBook.Servcies.Authorization
 
             if(user != null)
             {
-                _settingsManager.IdUser = user.id;
+                IdUser = user.id;
                 return true;
             }
 
             return false;
+        }
+
+        public bool IsAuthorize()
+        {
+            if (IdUser == Constant.NonAuthorized) return true;
+            else return false;
+        }
+
+        public void LogOut()
+        {
+            IdUser = Constant.NonAuthorized;
+        }
+
+        public int IdUser
+        {
+            get => Preferences.Get(nameof(IdUser), Constant.NonAuthorized);
+            set => Preferences.Set(nameof(IdUser), value);
         }
     }
 }

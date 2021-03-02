@@ -5,6 +5,7 @@ using Prism.Navigation;
 using ProfileBook.Constants;
 using ProfileBook.Models;
 using ProfileBook.Resources;
+using ProfileBook.Servcies.Authorization;
 using ProfileBook.Servcies.ProfileService;
 using ProfileBook.Servcies.Settings;
 using ProfileBook.Views;
@@ -25,9 +26,8 @@ namespace ProfileBook.ViewModels
 
 
         private readonly INavigationService _navigationService;
-        private readonly ISettingsManager _settingsManager;
         private readonly IProfileService _profileService;
-
+        private readonly IAuthorizationService _authorizationService;
         
 
 
@@ -40,22 +40,20 @@ namespace ProfileBook.ViewModels
 
         #endregion
 
-        public MainListViewModel(INavigationService navigationService, ISettingsManager settingsManager, 
-            IProfileService profileService)
+        public MainListViewModel(INavigationService navigationService, IProfileService profileService,
+            IAuthorizationService authorizationService)
             : base(navigationService)
         {
+            _navigationService = navigationService;
+            _authorizationService = authorizationService;
+            _profileService = profileService;
+
             //Title = LocalizationResource.MainList;
             //Title = Resources["MainList"];
             //Title = "Main List";
             //xmlns:resources="clr-namespace:ProfileBook.Resources"
             // Title="{x:Static resources:LocalizationResource.MainList}">
             //Title = (this.BindingContext as MainListViewModel).Resources["TheResourceYouWant"];
-
-            _navigationService = navigationService;
-            _settingsManager = settingsManager;
-            _profileService = profileService;
-
-            
 
         }
 
@@ -174,7 +172,7 @@ namespace ProfileBook.ViewModels
 
         private async void NavigateLogOutToolBarCommand() 
         {
-            _settingsManager.IdUser = Constant.NonAuthorized;
+            _authorizationService.LogOut();
             await _navigationService.NavigateAsync($"/NavigationPage/{nameof(SignIn)}");
         }
 

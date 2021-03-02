@@ -12,6 +12,7 @@ using System;
 using Acr.UserDialogs;
 using ProfileBook.Servcies.Settings;
 using ProfileBook.Constants;
+using ProfileBook.Servcies.Authorization;
 
 namespace ProfileBook.ViewModels
 {
@@ -29,7 +30,7 @@ namespace ProfileBook.ViewModels
         private readonly IProfileService _profileService;
         private readonly IMedia _media;
         private readonly IUserDialogs _userDialogs;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IAuthorizationService _authorizationService;
 
 
         private DelegateCommand _SaveToolBarCommand;
@@ -37,7 +38,7 @@ namespace ProfileBook.ViewModels
 
 
         public AddEditProfileViewModel(INavigationService navigationService, IProfileService profileService,
-            IMedia media, IUserDialogs userDialogs, ISettingsManager settingsManager)
+            IMedia media, IUserDialogs userDialogs, IAuthorizationService authorizationService)
             : base(navigationService)
         {
             Title = "Add Profile";
@@ -45,7 +46,7 @@ namespace ProfileBook.ViewModels
             _profileService = profileService;
             _userDialogs = userDialogs;
             _media = media;
-            _settingsManager = settingsManager;
+            _authorizationService = authorizationService;
 
             ImagePath = Constant.DefaultProfileImage;
 
@@ -104,7 +105,7 @@ namespace ProfileBook.ViewModels
                 _profile.nick_name = NickName;
                 _profile.description = Description;
                 _profile.image_path = ImagePath;
-                _profile.user_id = _settingsManager.IdUser;
+                _profile.user_id = _authorizationService.IdUser;
                 _profile.date = DateTime.Now;
 
                 await _profileService.AddEdit(_profile);
